@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Shared;
 
 namespace BSTLibrary
 {
-    public class BSTNode<T>where T: IComparable
+    public class BSTNode<T> : IBSTNode<T> where T : IComparable
     {
         public T Data { get; set; }
         public BSTNode<T> Left { get; set; }

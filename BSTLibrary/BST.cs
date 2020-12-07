@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared;
+using System;
 using System.Collections.Generic;
 
 namespace BSTLibrary
@@ -6,9 +7,9 @@ namespace BSTLibrary
     //BST class
     //This C# class implement a generic binary search tree that support create, insert, delete operation
     //Support In-Order, Pre-Order and Post-Order traversal of the tree.
-    //Support find operation to tell if supplied data exists in Binary serchtree
+    //Support find operation to tell if supplied data exists in Binary Search Tree
     //All supported operations are implemented without use of Recursion. So no stack overflow can happen.
-    public class BST<T> where T : IComparable
+    public class BST<T> : IBST<T> where T : IComparable
     {
         public BSTNode<T> Root { get; set; }
 
@@ -17,7 +18,7 @@ namespace BSTLibrary
             Root = null;
         }
 
-        public BST(T data)
+        public BST(T data) 
         {
             Root = new BSTNode<T>(data);
         }
