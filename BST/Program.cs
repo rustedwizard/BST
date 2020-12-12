@@ -41,6 +41,23 @@ namespace BST
             {
                 Console.Write(e + " ");
             }
+
+            var avl = new AVLTree<int>();
+            avl.Insert(10);
+            avl.Insert(9);
+            avl.Insert(8);
+            avl.Insert(5);
+            avl.Insert(6);
+            avl.Insert(4);
+            avl.Delete(8);
+            avl.Delete(10);
+            avl.Delete(9);
+            avl.Insert(7);
+            avl.Insert(8);
+            avl.Insert(9);
+            avl.Insert(10);
+            avl.Insert(12);
+            avl.Insert(11);
         }
     }
 }
