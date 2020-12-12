@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BSTLibrary
+namespace RustedWizard.BSTLibrary
 {
+    /// <summary>
+    /// AVLTree class.
+    /// Enables the creation, insertion, deletion, searching, and traversal(in-order, pre-order and post-order) functions.
+    /// This class implement AVL Tree which after each insertion and deletion, tree is balanced to enable optimal searching performance.
+    /// </summary>
+    /// <typeparam name="T">This class allows any type as long as that type implement System.IComparable Interface</typeparam>
     public partial class AVLTree<T> : IBST<T> where T : IComparable
     {
         internal AVLNode<T> Root { get; set; }
@@ -12,6 +18,13 @@ namespace BSTLibrary
         //To find detail implementation go to file AVLTreePrivateHelper.cs
         partial void treeBalancing(Stack<AVLNode<T>> stack);
 
+        /// <summary>
+        /// Insert new data into AVL Tree.
+        /// If data is actually inserted, method will return true.
+        /// If duplicate data is found, duplicate data will not be inserted and method will return false.
+        /// </summary>
+        /// <param name="Data">The data intended to be insert into this AVL Tree.</param>
+        /// <returns></returns>
         public bool Insert(T Data)
         {
             if (Root == null)
@@ -65,6 +78,13 @@ namespace BSTLibrary
             }
         }
 
+        /// <summary>
+        /// Delete data from AVL Tree
+        /// If data supplied is found in the tree, it will be deleted and method will return true.
+        /// If data is not found, tree will remain unchanged and method will return false.
+        /// </summary>
+        /// <param name="data">The data intended to be deleted.</param>
+        /// <returns></returns>
         public bool Delete(T data)
         {
             //if tree is empty, stop and return false;
@@ -213,6 +233,18 @@ namespace BSTLibrary
             #endregion
         }
 
+        /// <summary>
+        /// Searching function of AVL Tree
+        /// Attempt to find supplied data in the tree.
+        /// If found return result as true along with the actual data
+        /// If nothing is found return result as false along with null value.
+        /// </summary>
+        /// <param name="data">The data intended to be searched</param>
+        /// <returns>
+        /// Returns a named tuple contains two item Found and Data.
+        /// Found: bool value indicate if supplied Data is found in the tree
+        /// Data: the actual data found in the tree.
+        /// </returns>
         public (bool Found, T Data) TryFind(T data)
         {
             if (Root == null)
@@ -244,7 +276,14 @@ namespace BSTLibrary
                 current = current.Right;
             }
         }
+
+
         #region tree traversal
+        /// <summary>
+        /// In order traversal of AVL Tree
+        /// Standard In order traversal of Binary tree (In this case this AVL Tree)
+        /// </summary>
+        /// <returns>Enumerable Collection of Data in In-Order sequence.</returns>
         public IEnumerable<T> InOrderTraverse()
         {
             if (Root == null)
@@ -278,6 +317,11 @@ namespace BSTLibrary
             }
         }
 
+        /// <summary>
+        /// Pre-Order Traversal Function of AVL Tree
+        /// Standard Pre-order traversal of Binary tree (In this case this AVL Tree)
+        /// </summary>
+        /// <returns>Enumerable Collection of Data in Pre-Order sequence.</returns>
         public IEnumerable<T> PreOrderTraverse()
         {
             if (Root == null)
@@ -301,6 +345,11 @@ namespace BSTLibrary
             }
         }
 
+        /// <summary>
+        /// Post-Order Traversal Function of AVL Tree
+        /// Standard Post-order traversal of Binary tree (In this case this AVL Tree)
+        /// </summary>
+        /// <returns>Enumerable Collection of Data in Post-Order sequence.</returns>
         public IEnumerable<T> PostOrderTraverse()
         {
             if (Root == null)

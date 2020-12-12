@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BSTLibrary
+namespace RustedWizard.BSTLibrary
 {
     //BST class
     //This C# class implement a generic binary search tree that support create, insert, delete operation

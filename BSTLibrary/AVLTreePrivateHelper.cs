@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BSTLibrary
+namespace RustedWizard.BSTLibrary
 {
     public partial class AVLTree<T> : IBST<T> where T : IComparable
     {
@@ -60,8 +60,8 @@ namespace BSTLibrary
         {
             var left = node.Left;
             var lr = left.Right;
-            left.Right = null;
-            node.Left = null;
+            left.Right = lr.Left;
+            node.Left = lr.Right;
             lr.Left = left;
             lr.Right = node;
             left.Height = getSubtreeHeight(left) + 1;
@@ -104,8 +104,8 @@ namespace BSTLibrary
         {
             var right = node.Right;
             var rl = node.Right.Left;
-            node.Right = null;
-            right.Left = null;
+            node.Right = rl.Left;
+            right.Left = rl.Right;
             rl.Left = node;
             rl.Right = right;
             node.Height = getSubtreeHeight(node) + 1;
@@ -129,7 +129,7 @@ namespace BSTLibrary
                 if (bf == 2)
                 {
                     //if left child has balancing factor of 1 -> LeftLeftRotation
-                    if (getBalancingFactor(node.Left) == 1)
+                    if (getBalancingFactor(node.Left) >= 0)
                     {
                         if (stack.Count > 0)
                         {
@@ -162,7 +162,7 @@ namespace BSTLibrary
                 if (bf == -2)
                 {
                     //if Right Child has balancing factor of -1 -> RightRightRotation
-                    if (getBalancingFactor(node.Right) == -1)
+                    if (getBalancingFactor(node.Right) <=0)
                     {
                         if (stack.Count > 0)
                         {

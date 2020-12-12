@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BSTLibrary
+namespace RustedWizard.BSTLibrary
 {
     //Implement this interface to enforce comparable Generic Data type
     //and few fundamental method of binary search tree

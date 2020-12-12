@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BSTLibrary
+namespace RustedWizard.BSTLibrary
 {
     public class BSTNode<T> : IBSTNode<T> where T : IComparable
     {
