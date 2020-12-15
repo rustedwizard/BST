@@ -20,6 +20,8 @@ Both Binary Search Tree (BST is the class name) and AVL Tree (AVLTree is the cla
 
 4. Both tree implementation provide Creation, Insertion, Deletion, Searching, and Traversing(in-order, pre-order, post-order).
 
+For detailed usage, please read this commented code of [AVLTree class](https://github.com/rustedwizard/BST/blob/master/BSTLibrary/AVLTree.cs)
+
 ## Note
 
 To protect the validity of BST and AVLTree, both BSTNode(Node class for Binary search tree) and AVLNode(node class for AVL Tree) are declared internal. All the root node for both tree implementation are internal. All the creation and deletion of node are handled withing the assembly. You can only pass in and taking away the Data. You CAN NOT Create and pass in the Node yourself.
