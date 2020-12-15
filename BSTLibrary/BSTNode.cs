@@ -2,7 +2,7 @@
 
 namespace RustedWizard.BSTLibrary
 {
-    public class BSTNode<T> : IBSTNode<T> where T : IComparable
+    internal class BSTNode<T> : IBSTNode<T> where T : IComparable
     {
         public T Data { get; set; }
         public BSTNode<T> Left { get; set; }

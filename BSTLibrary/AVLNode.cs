@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace RustedWizard.BSTLibrary
 {
-    public class AVLNode<T> : IBSTNode<T> where T : IComparable
+    internal class AVLNode<T> : IBSTNode<T> where T : IComparable
     {
         public T Data { get; set; }
 

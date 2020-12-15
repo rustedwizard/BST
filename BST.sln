@@ -5,10 +5,6 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSTLibrary", "BSTLibrary\BSTLibrary.csproj", "{92EF588E-E8ED-4E57-A063-1207023E4F89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AVLTreeTest", "AVLTreeTest\AVLTreeTest.csproj", "{E6C105CF-77E7-4DB4-8105-8393F4774140}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSTTest", "BSTTest\BSTTest.csproj", "{8A5F15D0-5E89-4948-8B69-14EC838A240A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{92EF588E-E8ED-4E57-A063-1207023E4F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92EF588E-E8ED-4E57-A063-1207023E4F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92EF588E-E8ED-4E57-A063-1207023E4F89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E6C105CF-77E7-4DB4-8105-8393F4774140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6C105CF-77E7-4DB4-8105-8393F4774140}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E6C105CF-77E7-4DB4-8105-8393F4774140}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E6C105CF-77E7-4DB4-8105-8393F4774140}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A5F15D0-5E89-4948-8B69-14EC838A240A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A5F15D0-5E89-4948-8B69-14EC838A240A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A5F15D0-5E89-4948-8B69-14EC838A240A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A5F15D0-5E89-4948-8B69-14EC838A240A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
