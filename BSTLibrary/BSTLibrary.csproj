@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <Description>.Net Standard 2.1 package contains implementation of Standard Binary Search Tree and AVL Tree.</Description>
+    <Copyright>Rusted Wizard</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/rustedwizard/BST</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rustedwizard/BST</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageTags>BST, AVL, Binary Search Tree</PackageTags>
   </PropertyGroup>
 
 </Project>
