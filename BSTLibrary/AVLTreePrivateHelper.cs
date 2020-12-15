@@ -133,7 +133,14 @@ namespace RustedWizard.BSTLibrary
                     {
                         if (stack.Count > 0)
                         {
-                            stack.Peek().Left = LeftLeftRotation(node);
+                            if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
+                            {
+                                stack.Peek().Left = LeftLeftRotation(node);
+                            }
+                            else
+                            {
+                                stack.Peek().Right = LeftLeftRotation(node);
+                            }
                             continue;
                         }
                         else
@@ -147,7 +154,14 @@ namespace RustedWizard.BSTLibrary
                     {
                         if (stack.Count > 0)
                         {
-                            stack.Peek().Left = LeftRightRotation(node);
+                            if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
+                            {
+                                stack.Peek().Left = LeftRightRotation(node);
+                            }
+                            else
+                            {
+                                stack.Peek().Right = LeftRightRotation(node);
+                            }
                             continue;
                         }
                         else
@@ -166,7 +180,14 @@ namespace RustedWizard.BSTLibrary
                     {
                         if (stack.Count > 0)
                         {
-                            stack.Peek().Right = RightRightRotation(node);
+                            if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
+                            {
+                                stack.Peek().Left = RightRightRotation(node);
+                            }
+                            else
+                            {
+                                stack.Peek().Right = RightRightRotation(node);
+                            }
                             continue;
                         }
                         else
@@ -180,7 +201,14 @@ namespace RustedWizard.BSTLibrary
                     {
                         if (stack.Count > 0)
                         {
-                            stack.Peek().Right = RightLeftRotation(node);
+                            if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
+                            {
+                                stack.Peek().Left = RightLeftRotation(node);
+                            }
+                            else
+                            {
+                                stack.Peek().Right = RightLeftRotation(node);
+                            }
                             continue;
                         }
                         else
