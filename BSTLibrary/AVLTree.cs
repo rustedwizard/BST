@@ -18,6 +18,11 @@ namespace RustedWizard.BSTLibrary
         //To find detail implementation go to file AVLTreePrivateHelper.cs
         partial void treeBalancing(Stack<AVLNode<T>> stack);
 
+        public void ClearTheTree()
+        {
+            Root = null;
+        }
+
         /// <summary>
         /// Insert new data into AVL Tree.
         /// If data is actually inserted, method will return true.
@@ -33,6 +38,7 @@ namespace RustedWizard.BSTLibrary
                 Root.Height = 1;
                 return true;
             }
+            var res = true;
             var current = Root;
             //use stack keep record of traverse path
             var stack = new Stack<AVLNode<T>>();
@@ -52,14 +58,14 @@ namespace RustedWizard.BSTLibrary
                     {
                         current.Left = new AVLNode<T>(Data);
                         stack.Push(current.Left);
-                        treeBalancing(stack);
-                        return true;
+                        break;
                     }
                 }
                 //Duplicate data is not allowed in BST, if found, stop insertion and return false; 
                 if (Data.CompareTo(current.Data) == 0)
                 {
-                    return false;
+                    res = false;
+                    break;
                 }
                 //Data to be inserted is bigger then current node, go right
                 if (current.Right != null)
@@ -72,10 +78,15 @@ namespace RustedWizard.BSTLibrary
                 {
                     current.Right = new AVLNode<T>(Data);
                     stack.Push(current.Right);
-                    treeBalancing(stack);
-                    return true;
+                    break;
                 }
             }
+            if (res)
+            {
+                //if data inserted, balancing the tree
+                treeBalancing(stack);
+            }
+            return res;
         }
 
         /// <summary>
@@ -95,6 +106,7 @@ namespace RustedWizard.BSTLibrary
             #region find the node and its parent
             var prev = Root;
             var node = Root;
+            var res = true;
             var stack = new Stack<AVLNode<T>>();
             stack.Push(node);
             //if the node we are looking for is not the root node
@@ -155,14 +167,12 @@ namespace RustedWizard.BSTLibrary
                     if (prev.Left!=null && prev.Left.Data.CompareTo(node.Data) == 0)
                     {
                         prev.Left = null;
-                        treeBalancing(stack);
-                        return true;
+                        break;
                     }
                     else
                     {
                         prev.Right = null;
-                        treeBalancing(stack);
-                        return true;
+                        break;
                     }
                 }
                 //if node to be deleted is a one child node
@@ -173,14 +183,12 @@ namespace RustedWizard.BSTLibrary
                         if (node.Left != null)
                         {
                             prev.Left = node.Left;
-                            treeBalancing(stack);
-                            return true;
+                            break;
                         }
                         else
                         {
                             prev.Left = node.Right;
-                            treeBalancing(stack);
-                            return true;
+                            break;
                         }
                     }
                     else
@@ -188,21 +196,19 @@ namespace RustedWizard.BSTLibrary
                         if (node.Left != null)
                         {
                             prev.Right = node.Left;
-                            treeBalancing(stack);
-                            return true;
+                            break;
                         }
                         else
                         {
                             prev.Right = node.Right;
-                            treeBalancing(stack);
-                            return true;
+                            break;
                         }
                     }
                 }
                 else //if node to be deleted has two child nodes.
                 {
                     var minOnRight = node.Right;
-                    var prevToMin = node.Right;
+                    var prevToMin = node;
                     stack.Push(prevToMin);
                     while (minOnRight.Left != null)
                     {
@@ -231,6 +237,11 @@ namespace RustedWizard.BSTLibrary
                 }
             }
             #endregion
+            if (res)
+            {
+                treeBalancing(stack);
+            }
+            return res;
         }
 
         /// <summary>

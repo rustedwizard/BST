@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-
+using System.Runtime.CompilerServices;
+#if DEBUG
+[assembly: InternalsVisibleTo("BSTLibraryTest")]
+#endif
 namespace RustedWizard.BSTLibrary
 {
     //Implement this interface to enforce comparable Generic Data type
