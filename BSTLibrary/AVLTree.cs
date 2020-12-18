@@ -18,6 +18,9 @@ namespace RustedWizard.BSTLibrary
         //To find detail implementation go to file AVLTreePrivateHelper.cs
         partial void treeBalancing(Stack<AVLNode<T>> stack);
 
+        /// <summary>
+        /// Empty all elements in the tree.
+        /// </summary>
         public void ClearTheTree()
         {
             Root = null;
@@ -164,7 +167,7 @@ namespace RustedWizard.BSTLibrary
                 //if node to be deleted is leaf node
                 if (node.IsLeafNode())
                 {
-                    if (prev.Left!=null && prev.Left.Data.CompareTo(node.Data) == 0)
+                    if (prev.Left != null && prev.Left.Data.CompareTo(node.Data) == 0)
                     {
                         prev.Left = null;
                         break;
@@ -222,18 +225,8 @@ namespace RustedWizard.BSTLibrary
                     //set up prev and node, delete its min value node from right subtree.
                     //since it is left most node, it can only be leaf node or one child node.
                     //so the loop will end at next iteration
-                    //Special case: if the left most node is the root node of this right subtree (has no left child)
-                    if (minOnRight.Data.CompareTo(prevToMin.Data) == 0)
-                    {
-                        //prev node is the current node
-                        prev = node;
-                        node = minOnRight;
-                    }
-                    else
-                    {
-                        prev = prevToMin;
-                        node = minOnRight;
-                    }
+                    prev = prevToMin;
+                    node = minOnRight;
                 }
             }
             #endregion
