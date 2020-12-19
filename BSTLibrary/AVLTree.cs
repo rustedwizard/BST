@@ -101,140 +101,140 @@ namespace RustedWizard.BSTLibrary
         /// <returns></returns>
         public bool Delete(T data)
         {
-            //if tree is empty, stop and return false;
-            if (Root == null)
+            if(Root == null)
             {
                 return false;
             }
-            #region find the node and its parent
-            var prev = Root;
-            var node = Root;
-            var res = true;
             var stack = new Stack<AVLNode<T>>();
-            stack.Push(node);
-            //if the node we are looking for is not the root node
-            //try to find it. Also use prev variable to keep track of parent node.
-            //We can not reuse Find method because we need extra step to keep track of parent node.
-            if (data.CompareTo(Root.Data) != 0)
+            var found = false;
+            var current = Root;
+            if (Root.Data.CompareTo(data) == 0)
             {
-                var current = Root;
-                stack.Pop();
-                while (true)
+                if (Root.IsLeafNode())
                 {
-                    if (current.Data.CompareTo(data) > 0)
+                    Root = null;
+                    return true;
+                }
+                if (Root.HasOneChild())
+                {
+                    if (Root.Left != null)
                     {
-                        //if data we search for is smaller then current node
-                        //and current node has no left child, that means node 
-                        //we are searching for does not exists, return false;
-                        if (current.Left == null)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            prev = current;
-                            current = current.Left;
-                            stack.Push(prev);
-                        }
+                        Root = Root.Left;
+                        return true;
                     }
-                    if (current.Data.CompareTo(data) == 0)
+                    else
                     {
-                        node = current;
-                        break;
+                        Root = Root.Right;
+                        return true;
                     }
-                    if (current.Data.CompareTo(data) < 0)
+                }
+                stack.Push(Root);
+                var toDelete = Root.Right;
+                while (toDelete.Left != null)
+                {
+                    stack.Push(toDelete);
+                    toDelete = toDelete.Left;
+                }
+                current = toDelete;
+                Root.Data = toDelete.Data;
+                found = true;
+            }
+
+            while (!found)
+            {
+                if (current.Data.CompareTo(data) > 0)
+                {
+                    if (current.Left == null)
                     {
-                        //if data we search for is larger then current node
-                        //and current node has no right child, that means node 
-                        //we are searching for does not exists, return false.
-                        if (current.Right == null)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            prev = current;
-                            current = current.Right;
-                            stack.Push(prev);
-                        }
+                        return false;
+                    }
+                    else
+                    {
+                        stack.Push(current);
+                        current = current.Left;
+                        continue;
+                    }
+                }
+                if (current.Data.CompareTo(data) == 0)
+                {
+                    found = true;
+                    continue;
+                }
+                if (current.Data.CompareTo(data) < 0)
+                {
+                    if (current.Right == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        stack.Push(current);
+                        current = current.Right;
+                        continue;
                     }
                 }
             }
-            #endregion
-            #region actual delete
             while (true)
             {
-                //if node to be deleted is leaf node
-                if (node.IsLeafNode())
+                if (current.IsLeafNode())
                 {
-                    if (prev.Left != null && prev.Left.Data.CompareTo(node.Data) == 0)
+                    if (stack.Peek().Left == current)
                     {
-                        prev.Left = null;
-                        break;
+                        stack.Peek().Left = null;
+                        treeBalancing(stack);
+                        return true;
                     }
                     else
                     {
-                        prev.Right = null;
-                        break;
+                        stack.Peek().Right = null;
+                        treeBalancing(stack);
+                        return true;
                     }
                 }
-                //if node to be deleted is a one child node
-                if (node.HasOneChild())
+                if (current.HasOneChild())
                 {
-                    if (prev.Left != null && prev.Left.Data.CompareTo(node.Data) == 0)
+                    if (stack.Peek().Left == current)
                     {
-                        if (node.Left != null)
+                        if (current.Left != null)
                         {
-                            prev.Left = node.Left;
-                            break;
+                            stack.Peek().Left = current.Left;
+                            treeBalancing(stack);
+                            return true;
                         }
                         else
                         {
-                            prev.Left = node.Right;
-                            break;
+                            stack.Peek().Left = current.Right;
+                            treeBalancing(stack);
+                            return true;
                         }
                     }
                     else
                     {
-                        if (node.Left != null)
+                        if (current.Left != null)
                         {
-                            prev.Right = node.Left;
-                            break;
+                            stack.Peek().Right = current.Left;
+                            treeBalancing(stack);
+                            return true;
                         }
                         else
                         {
-                            prev.Right = node.Right;
-                            break;
+                            stack.Peek().Right = current.Right;
+                            treeBalancing(stack);
+                            return true;
                         }
                     }
                 }
-                else //if node to be deleted has two child nodes.
+                stack.Push(current);
+                var toDelete = current.Right;
+                while (toDelete.Left != null)
                 {
-                    var minOnRight = node.Right;
-                    var prevToMin = node;
-                    stack.Push(prevToMin);
-                    while (minOnRight.Left != null)
-                    {
-                        prevToMin = minOnRight;
-                        minOnRight = minOnRight.Left;
-                        stack.Push(prevToMin);
-                    }
-                    //set the value of the node to be delete to the min value of its right subtree.
-                    //a.k.a the left most node of right subtree
-                    node.Data = minOnRight.Data;
-                    //set up prev and node, delete its min value node from right subtree.
-                    //since it is left most node, it can only be leaf node or one child node.
-                    //so the loop will end at next iteration
-                    prev = prevToMin;
-                    node = minOnRight;
+                    stack.Push(toDelete);
+                    toDelete = toDelete.Left;
                 }
+                current = toDelete;
+                current.Data = toDelete.Data;
+                
             }
-            #endregion
-            if (res)
-            {
-                treeBalancing(stack);
-            }
-            return res;
         }
 
         /// <summary>
