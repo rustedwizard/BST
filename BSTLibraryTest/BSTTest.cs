@@ -110,6 +110,13 @@ namespace BSTLibraryTest
                 Assert.IsTrue(res.Found);
                 Assert.AreEqual(res.Data, e);
             }
+            //Generate some random number outside the range of
+            //the tree and try to find. Expected false return.
+            for(int i=0; i<100; i++)
+            {
+                var res = BSTTree.TryFind(Rnd.Next(21000, 50000));
+                Assert.IsFalse(res.Found);
+            }
         }
     }
 }
