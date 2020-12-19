@@ -8,35 +8,6 @@ namespace BSTLibraryTest
     [TestClass]
     public class AVLTreeTest
     {
-        private void TreeValidation(AVLNode<int> node)
-        {
-            if (node.IsLeafNode())
-            {
-                return;
-            }
-            bool res;
-            if (node.HasOneChild())
-            {
-                if (node.Left != null)
-                {
-                    res = node.Left.Data < node.Data;
-                    Assert.IsTrue(res);
-                    TreeValidation(node.Left);
-                    return;
-                }
-                else
-                {
-                    res = node.Right.Data > node.Data;
-                    Assert.IsTrue(res);
-                    TreeValidation(node.Right);
-                    return;
-                }
-            }
-            res = node.Right.Data > node.Data && node.Left.Data < node.Data;
-            Assert.IsTrue(res);
-            TreeValidation(node.Left);
-            TreeValidation(node.Right);
-        }
         //Verify the Height Property of each node AVLTree contains correct value.
         private int TreeHeightVerification(AVLNode<int> node)
         {
@@ -124,7 +95,7 @@ namespace BSTLibraryTest
                 if (res)
                 {
                     counter++;
-                    TreeValidation(AVLTree.Root);
+                    Utility.TreeValidation(AVLTree.Root);
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
                 }
@@ -135,7 +106,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            TreeValidation(AVLTree.Root);
+            Utility.TreeValidation(AVLTree.Root);
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
         }
@@ -166,7 +137,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            TreeValidation(AVLTree.Root);
+            Utility.TreeValidation(AVLTree.Root);
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
             //Now attempt to delete one node at a time
@@ -176,7 +147,7 @@ namespace BSTLibraryTest
                 AVLTree.Delete(e);
                 if (AVLTree.Root != null)
                 {
-                    TreeValidation(AVLTree.Root);
+                    Utility.TreeValidation(AVLTree.Root);
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
                 }

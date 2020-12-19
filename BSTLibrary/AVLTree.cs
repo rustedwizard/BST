@@ -232,8 +232,7 @@ namespace RustedWizard.BSTLibrary
                     toDelete = toDelete.Left;
                 }
                 current = toDelete;
-                current.Data = toDelete.Data;
-                
+                current.Data = toDelete.Data; 
             }
         }
 
