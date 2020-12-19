@@ -224,6 +224,7 @@ namespace RustedWizard.BSTLibrary
                     else
                     {
                         current = current.Left;
+                        continue;
                     }
                 }
                 if (data.CompareTo(current.Data) == 0)
@@ -235,6 +236,7 @@ namespace RustedWizard.BSTLibrary
                     return (false, default(T));
                 }
                 current = current.Right;
+                continue;
             }
         }
 

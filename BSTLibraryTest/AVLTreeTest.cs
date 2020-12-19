@@ -153,5 +153,42 @@ namespace BSTLibraryTest
                 }
             }
         }
+
+        [TestMethod]
+        public void FindTest()
+        {
+            var AVLTree = new AVLTree<int>();
+            var Rnd = new Random();
+            //Generate 20 random integer
+            int[] ints = new int[20000];
+            for (int i = 0; i < 20000; i++)
+            {
+                ints[i] = Rnd.Next(-20000, 20000);
+            }
+            int counter = 0;
+            foreach (var e in ints)
+            {
+                var res = AVLTree.Insert(e);
+                if (res)
+                {
+                    counter++;
+                }
+            }
+            var inOrderList = new List<int>();
+            foreach (var e in AVLTree.InOrderTraverse())
+            {
+                inOrderList.Add(e);
+            }
+            Assert.AreEqual(inOrderList.Count, counter);
+            Utility.TreeValidation(AVLTree.Root);
+            _ = TreeHeightVerification(AVLTree.Root);
+            BalacningFactorVerification(AVLTree.Root);
+            foreach (var e in ints)
+            {
+                var res = AVLTree.TryFind(e);
+                Assert.IsTrue(res.Found);
+                Assert.AreEqual(res.Data, e);
+            }
+        }
     }
 }

@@ -76,5 +76,40 @@ namespace BSTLibraryTest
                 }
             }
         }
+
+        [TestMethod]
+        public void FindTest()
+        {
+            var BSTTree = new BST<int>();
+            var Rnd = new Random();
+            //Generate 20 random integer
+            int[] ints = new int[20000];
+            for (int i = 0; i < 20000; i++)
+            {
+                ints[i] = Rnd.Next(-20000, 20000);
+            }
+            int counter = 0;
+            foreach (var e in ints)
+            {
+                var res = BSTTree.Insert(e);
+                if (res)
+                {
+                    counter++;
+                }
+            }
+            var inOrderList = new List<int>();
+            foreach (var e in BSTTree.InOrderTraverse())
+            {
+                inOrderList.Add(e);
+            }
+            Assert.AreEqual(inOrderList.Count, counter);
+            Utility.TreeValidation(BSTTree.Root);
+            foreach (var e in ints)
+            {
+                var res = BSTTree.TryFind(e);
+                Assert.IsTrue(res.Found);
+                Assert.AreEqual(res.Data, e);
+            }
+        }
     }
 }
