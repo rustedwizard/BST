@@ -20,7 +20,6 @@ namespace BSTLibraryTest
                 if (node.Left != null)
                 {
                     res = node.Left.Data < node.Data;
-                    Console.WriteLine($"Node: {node.Data}, Left: {node.Left.Data}");
                     Assert.IsTrue(res);
                     TreeValidation(node.Left);
                     return;
@@ -28,14 +27,12 @@ namespace BSTLibraryTest
                 else
                 {
                     res = node.Right.Data > node.Data;
-                    Console.WriteLine($"Node: {node.Data}, Right: {node.Right.Data}");
                     Assert.IsTrue(res);
                     TreeValidation(node.Right);
                     return;
                 }
             }
             res = node.Right.Data > node.Data && node.Left.Data < node.Data;
-            Console.WriteLine($"Node: {node.Data}, Right: {node.Right.Data}");
             Assert.IsTrue(res);
             TreeValidation(node.Left);
             TreeValidation(node.Right);
@@ -46,7 +43,6 @@ namespace BSTLibraryTest
             int h;
             if (node.IsLeafNode())
             {
-                Console.WriteLine($"Node: {node.Data}, Height: {node.Height}, Expected Height: 1");
                 Assert.AreEqual(node.Height, 1);
                 return 1;
             }
@@ -55,18 +51,15 @@ namespace BSTLibraryTest
                 if (node.Left != null)
                 {
                     h = TreeHeightVerification(node.Left) + 1;
-                    Console.WriteLine($"Node: {node.Data}, Height: {node.Height}, Expected Height: {h}");
                 }
                 else
                 {
                     h = TreeHeightVerification(node.Right) + 1;
-                    Console.WriteLine($"Node: {node.Data}, Height: {node.Height}, Expected Height: {h}");
                 }
                 Assert.AreEqual(node.Height, h);
                 return h;
             }
             h = Math.Max(TreeHeightVerification(node.Left), TreeHeightVerification(node.Right)) + 1;
-            Console.WriteLine($"Node: {node.Data}, Height: {node.Height}, Expected Height: {h}");
             Assert.AreEqual(node.Height, h);
             return h;
         }
@@ -78,14 +71,12 @@ namespace BSTLibraryTest
         {
             int bf;
             bool res;
-            string output;
             if(node == null)
             {
                 return;
             }
             if (node.IsLeafNode())
             {
-                Console.WriteLine($"Node: {node.Data}, Balancing Factor: 0, With the Range: Yes (Leaf node!) ");
                 return;
             }
             if (node.HasOneChild())
@@ -94,8 +85,6 @@ namespace BSTLibraryTest
                 {
                     bf = node.Left.Height - 0;
                     res = (bf > -2 && bf < 2);
-                    output = (res ? "Yes" : "No");
-                    Console.WriteLine($"Node: {node.Data}, Balancing Factor: {bf}, With the Range: {output} ");
                     Assert.IsTrue(res);
                     BalacningFactorVerification(node.Left);
                     return;
@@ -104,8 +93,6 @@ namespace BSTLibraryTest
                 {
                     bf = 0 - node.Right.Height;
                     res = (bf > -2 && bf < 2);
-                    output = (res ? "Yes" : "No");
-                    Console.WriteLine($"Node: {node.Data}, Balancing Factor: {bf}, With the Range: {output} ");
                     Assert.IsTrue(res);
                     BalacningFactorVerification(node.Right);
                     return;
@@ -113,8 +100,6 @@ namespace BSTLibraryTest
             }
             bf = node.Left.Height - node.Right.Height;
             res = (bf > -2 && bf < 2);
-            output = (res ? "Yes" : "No");
-            Console.WriteLine($"Node: {node.Data}, Balancing Factor: {bf}, With the Range: {output} ");
             Assert.IsTrue(res);
             BalacningFactorVerification(node.Left);
             BalacningFactorVerification(node.Right);
@@ -122,13 +107,13 @@ namespace BSTLibraryTest
         }
 
         [TestMethod]
-        public void SimpleInsertionTest()
+        public void InsertionTest()
         {
             var AVLTree = new AVLTree<int>();
             var Rnd = new Random();
             //Generate 20 random integer
-            int[] ints = new int[20];
-            for (int i = 0; i < 20; i++)
+            int[] ints = new int[20000];
+            for (int i = 0; i < 20000; i++)
             {
                 ints[i] = Rnd.Next(-20000, 20000);
             }
@@ -139,7 +124,6 @@ namespace BSTLibraryTest
                 if (res)
                 {
                     counter++;
-                    Console.WriteLine($"{counter} Elements Inserted");
                     TreeValidation(AVLTree.Root);
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
@@ -148,8 +132,6 @@ namespace BSTLibraryTest
             var inOrderList = new List<int>();
             foreach (var e in AVLTree.InOrderTraverse())
             {
-                Console.Write($"{e}, ");
-                Console.WriteLine();
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
@@ -159,13 +141,13 @@ namespace BSTLibraryTest
         }
 
         [TestMethod]
-        public void SimpleDeletionTest()
+        public void DeletionTest()
         {
             var AVLTree = new AVLTree<int>();
             var Rnd = new Random();
             //Generate 20 random integer
-            int[] ints = new int[20];
-            for (int i = 0; i < 20; i++)
+            int[] ints = new int[20000];
+            for (int i = 0; i < 20000; i++)
             {
                 ints[i] = Rnd.Next(-20000, 20000);
             }
@@ -181,8 +163,6 @@ namespace BSTLibraryTest
             var inOrderList = new List<int>();
             foreach (var e in AVLTree.InOrderTraverse())
             {
-                Console.Write($"{e}, ");
-                Console.WriteLine();
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
@@ -191,9 +171,7 @@ namespace BSTLibraryTest
             BalacningFactorVerification(AVLTree.Root);
             //Now attempt to delete one node at a time
             //and verify tree validity after each deletion
-            Console.WriteLine("Following are deletion test");
-            counter = 1;
-            foreach(var e in ints)
+            foreach (var e in ints)
             {
                 AVLTree.Delete(e);
                 if (AVLTree.Root != null)
@@ -202,8 +180,6 @@ namespace BSTLibraryTest
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
                 }
-                Console.WriteLine($"{counter} Element Deleted");
-                counter++;
             }
         }
     }
