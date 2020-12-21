@@ -26,7 +26,7 @@ namespace BSTLibraryTest
                 if (res)
                 {
                     counter++;
-                    Utility.TreeValidation(BSTTree.Root);
+                    Utility.TreeValidation(BSTTree.Root, typeof(BSTNode<int>));
                 }
             }
             var inOrderList = new List<int>();
@@ -35,7 +35,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(BSTTree.Root);
+            Utility.TreeValidation(BSTTree.Root, typeof(BSTNode<int>));
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(BSTTree.Root);
+            Utility.TreeValidation(BSTTree.Root, typeof(BSTNode<int>));
             //Now attempt to delete one node at a time
             //and verify tree validity after each deletion
             foreach (var e in ints)
@@ -72,7 +72,7 @@ namespace BSTLibraryTest
                 BSTTree.Delete(e);
                 if (BSTTree.Root != null)
                 {
-                    Utility.TreeValidation(BSTTree.Root);
+                    Utility.TreeValidation(BSTTree.Root, typeof(BSTNode<int>));
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(BSTTree.Root);
+            Utility.TreeValidation(BSTTree.Root, typeof(BSTNode<int>));
             foreach (var e in ints)
             {
                 var res = BSTTree.TryFind(e);

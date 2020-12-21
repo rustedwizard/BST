@@ -1,68 +1,49 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RustedWizard.BSTLibrary;
+using System;
+using System.Collections.Generic;
 
 namespace BSTLibraryTest
 {
     class Utility
     {
-        public static void TreeValidation(AVLNode<int> node)
+        public static void TreeValidation(IBSTNode<int> n, Type type)
         {
-            if (node.IsLeafNode())
+            dynamic node = Convert.ChangeType(n, type);
+            var t = typeof(Stack<>).MakeGenericType(type);
+            dynamic stack = Activator.CreateInstance(t);
+            stack.Push(node);
+            while(stack.Count > 0)
             {
-                return;
-            }
-            bool res;
-            if (node.HasOneChild())
-            {
-                if (node.Left != null)
+                dynamic current = stack.Pop();
+                bool res;
+                if (current.IsLeafNode())
                 {
-                    res = node.Left.Data < node.Data;
-                    Assert.IsTrue(res);
-                    TreeValidation(node.Left);
-                    return;
+                    continue;
                 }
-                else
+                if (current.HasOneChild())
                 {
-                    res = node.Right.Data > node.Data;
-                    Assert.IsTrue(res);
-                    TreeValidation(node.Right);
-                    return;
+                    if (current.Left != null)
+                    {
+                        res = current.Left.Data < current.Data;
+                        Assert.IsTrue(res);
+                        stack.Push(current.Left);
+                        continue;
+                    }
+                    else
+                    {
+                        res = current.Right.Data > current.Data;
+                        Assert.IsTrue(res);
+                        stack.Push(current.Right);
+                        continue;
+                    }
                 }
+                res = current.Right.Data > current.Data && current.Left.Data < current.Data;
+                Assert.IsTrue(res);
+                stack.Push(current.Left);
+                stack.Push(current.Right);
+                continue;
             }
-            res = node.Right.Data > node.Data && node.Left.Data < node.Data;
-            Assert.IsTrue(res);
-            TreeValidation(node.Left);
-            TreeValidation(node.Right);
-        }
-
-        public static void TreeValidation(BSTNode<int> node)
-        {
-            if (node.IsLeafNode())
-            {
-                return;
-            }
-            bool res;
-            if (node.HasOneChild())
-            {
-                if (node.Left != null)
-                {
-                    res = node.Left.Data < node.Data;
-                    Assert.IsTrue(res);
-                    TreeValidation(node.Left);
-                    return;
-                }
-                else
-                {
-                    res = node.Right.Data > node.Data;
-                    Assert.IsTrue(res);
-                    TreeValidation(node.Right);
-                    return;
-                }
-            }
-            res = node.Right.Data > node.Data && node.Left.Data < node.Data;
-            Assert.IsTrue(res);
-            TreeValidation(node.Left);
-            TreeValidation(node.Right);
         }
     }
 }

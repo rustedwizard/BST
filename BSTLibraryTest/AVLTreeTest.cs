@@ -95,7 +95,7 @@ namespace BSTLibraryTest
                 if (res)
                 {
                     counter++;
-                    Utility.TreeValidation(AVLTree.Root);
+                    Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
                 }
@@ -106,7 +106,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(AVLTree.Root);
+            Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
         }
@@ -137,7 +137,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(AVLTree.Root);
+            Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
             //Now attempt to delete one node at a time
@@ -147,7 +147,7 @@ namespace BSTLibraryTest
                 AVLTree.Delete(e);
                 if (AVLTree.Root != null)
                 {
-                    Utility.TreeValidation(AVLTree.Root);
+                    Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
                 }
@@ -180,7 +180,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(AVLTree.Root);
+            Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
             foreach (var e in ints)
@@ -195,6 +195,33 @@ namespace BSTLibraryTest
             {
                 var res = AVLTree.TryFind(Rnd.Next(21000, 50000));
                 Assert.IsFalse(res.Found);
+            }
+        }
+
+        [TestMethod]
+        public void StressTest()
+        {
+            var AVLTree = new AVLTree<int>();
+            var Rnd = new Random();
+            //Generate 20 random integer
+            int[] ints = new int[9999999];
+            for (int i = 0; i < 9999999; i++)
+            {
+                ints[i] = Rnd.Next(-2000000, 2000000);
+            }
+            foreach (var e in ints)
+            {
+                AVLTree.Insert(e);
+            }
+            foreach (var e in ints)
+            {
+                var res = AVLTree.TryFind(e);
+                Assert.IsTrue(res.Found);
+                Assert.AreEqual(res.Data, e);
+            }
+            foreach (var e in ints)
+            {
+                AVLTree.Delete(e);
             }
         }
     }
