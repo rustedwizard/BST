@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+
 #if DEBUG
 [assembly: InternalsVisibleTo("BSTLibraryTest")]
 #endif

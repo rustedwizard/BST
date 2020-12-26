@@ -12,14 +12,6 @@ namespace RustedWizard.BSTLibrary
 
         public AVLNode<T> Right { get; set; }
 
-        public AVLNode()
-        {
-            Data = default(T);
-            Height = 0;
-            Left = null;
-            Right = null;
-        }
-
         public AVLNode(T data)
         {
             Data = data;
@@ -35,14 +27,17 @@ namespace RustedWizard.BSTLibrary
 
         public bool HasOneChild()
         {
-            if ((Left == null && Right != null) || (Left != null && Right == null))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (Left == null && Right != null) || (Left != null && Right == null);
+        }
+
+        public IBSTNode<T> GetLeft()
+        {
+            return Left;
+        }
+
+        public IBSTNode<T> GetRight()
+        {
+            return Right;
         }
     }
 }

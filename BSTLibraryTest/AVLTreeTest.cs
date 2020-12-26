@@ -95,7 +95,7 @@ namespace BSTLibraryTest
                 if (res)
                 {
                     counter++;
-                    Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
+                    Utility.TreeValidation(AVLTree.Root);
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
                 }
@@ -106,7 +106,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
+            Utility.TreeValidation(AVLTree.Root);
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
         }
@@ -137,7 +137,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
+            Utility.TreeValidation(AVLTree.Root);
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
             //Now attempt to delete one node at a time
@@ -147,7 +147,7 @@ namespace BSTLibraryTest
                 AVLTree.Delete(e);
                 if (AVLTree.Root != null)
                 {
-                    Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
+                    Utility.TreeValidation(AVLTree.Root);
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
                 }
@@ -180,7 +180,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(AVLTree.Root, typeof(AVLNode<int>));
+            Utility.TreeValidation(AVLTree.Root);
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
             foreach (var e in ints)
