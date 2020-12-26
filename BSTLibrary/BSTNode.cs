@@ -8,13 +8,6 @@ namespace RustedWizard.BSTLibrary
         public BSTNode<T> Left { get; set; }
         public BSTNode<T> Right { get; set; }
 
-        public BSTNode()
-        {
-            Data = default(T);
-            Left = null;
-            Right = null;
-        }
-
         public BSTNode(T data)
         {
             Data = data;
@@ -29,14 +22,17 @@ namespace RustedWizard.BSTLibrary
 
         public bool HasOneChild()
         {
-            if ((Left==null && Right != null)||(Left!=null && Right == null))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return ((Left == null && Right != null) || (Left != null && Right == null));
+        }
+
+        public IBSTNode<T> GetLeft()
+        {
+            return Left;
+        }
+
+        public IBSTNode<T> GetRight()
+        {
+            return Right;
         }
     }
 }

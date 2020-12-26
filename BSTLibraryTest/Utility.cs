@@ -1,21 +1,18 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RustedWizard.BSTLibrary;
-using System;
 using System.Collections.Generic;
 
 namespace BSTLibraryTest
 {
     class Utility
     {
-        public static void TreeValidation(IBSTNode<int> n, Type type)
+        public static void TreeValidation(IBSTNode<int> n)
         {
-            dynamic node = Convert.ChangeType(n, type);
-            var t = typeof(Stack<>).MakeGenericType(type);
-            dynamic stack = Activator.CreateInstance(t);
-            stack.Push(node);
+            var stack = new Stack<IBSTNode<int>>();
+            stack.Push(n);
             while(stack.Count > 0)
             {
-                dynamic current = stack.Pop();
+                IBSTNode<int> current = stack.Pop();
                 bool res;
                 if (current.IsLeafNode())
                 {
@@ -23,25 +20,25 @@ namespace BSTLibraryTest
                 }
                 if (current.HasOneChild())
                 {
-                    if (current.Left != null)
+                    if (current.GetLeft() != null)
                     {
-                        res = current.Left.Data < current.Data;
+                        res = current.GetLeft().Data < current.Data;
                         Assert.IsTrue(res);
-                        stack.Push(current.Left);
+                        stack.Push(current.GetLeft());
                         continue;
                     }
                     else
                     {
-                        res = current.Right.Data > current.Data;
+                        res = current.GetRight().Data > current.Data;
                         Assert.IsTrue(res);
-                        stack.Push(current.Right);
+                        stack.Push(current.GetRight());
                         continue;
                     }
                 }
-                res = current.Right.Data > current.Data && current.Left.Data < current.Data;
+                res = current.GetRight().Data > current.Data && current.GetLeft().Data < current.Data;
                 Assert.IsTrue(res);
-                stack.Push(current.Left);
-                stack.Push(current.Right);
+                stack.Push(current.GetLeft());
+                stack.Push(current.GetRight());
                 continue;
             }
         }

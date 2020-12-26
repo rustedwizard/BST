@@ -5,7 +5,7 @@ namespace RustedWizard.BSTLibrary
 {
     //BST class
     //This C# class implement a generic binary search tree that support create, insert, delete operation
-    //Support In-Order, Pre-Order and Post-Order traversal of the tree.
+    //Support In-Order, PreOrder and Post-Order traversal of the tree.
     //Support find operation to tell if supplied data exists in Binary Search Tree
     //All supported operations are implemented without use of Recursion. So no stack overflow can happen.
     public class BST<T> : IBST<T> where T : IComparable
