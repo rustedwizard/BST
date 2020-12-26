@@ -174,6 +174,7 @@ namespace RustedWizard.BSTLibrary
                     }
                 }
             }
+            bool res;
             while (true)
             {
                 if (current.IsLeafNode())
@@ -181,14 +182,14 @@ namespace RustedWizard.BSTLibrary
                     if (stack.Peek().Left == current)
                     {
                         stack.Peek().Left = null;
-                        treeBalancing(stack);
-                        return true;
+                        res = true;
+                        break;
                     }
                     else
                     {
                         stack.Peek().Right = null;
-                        treeBalancing(stack);
-                        return true;
+                        res = true;
+                        break;
                     }
                 }
                 if (current.HasOneChild())
@@ -198,14 +199,14 @@ namespace RustedWizard.BSTLibrary
                         if (current.Left != null)
                         {
                             stack.Peek().Left = current.Left;
-                            treeBalancing(stack);
-                            return true;
+                            res = true;
+                            break;
                         }
                         else
                         {
                             stack.Peek().Left = current.Right;
-                            treeBalancing(stack);
-                            return true;
+                            res = true;
+                            break;
                         }
                     }
                     else
@@ -213,14 +214,14 @@ namespace RustedWizard.BSTLibrary
                         if (current.Left != null)
                         {
                             stack.Peek().Right = current.Left;
-                            treeBalancing(stack);
-                            return true;
+                            res = true;
+                            break;
                         }
                         else
                         {
                             stack.Peek().Right = current.Right;
-                            treeBalancing(stack);
-                            return true;
+                            res = true;
+                            break;
                         }
                     }
                 }
@@ -234,6 +235,11 @@ namespace RustedWizard.BSTLibrary
                 current = toDelete;
                 current.Data = toDelete.Data; 
             }
+            if (res)
+            {
+                treeBalancing(stack);
+            }
+            return res;
         }
 
         /// <summary>

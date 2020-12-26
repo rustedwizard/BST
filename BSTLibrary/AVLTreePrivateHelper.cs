@@ -217,10 +217,8 @@ namespace RustedWizard.BSTLibrary
                             continue;
                         }
                     }
-
                 }
             }
-
         }
     }
 }

@@ -8,6 +8,11 @@ namespace BSTLibraryTest
     [TestClass]
     public class AVLTreeTest
     {
+        private void CallTreeValidation(AVLNode<int> node)
+        {
+            Utility.TreeValidation(node);
+        }
+
         //Verify the Height Property of each node AVLTree contains correct value.
         private int TreeHeightVerification(AVLNode<int> node)
         {
@@ -95,7 +100,7 @@ namespace BSTLibraryTest
                 if (res)
                 {
                     counter++;
-                    Utility.TreeValidation(AVLTree.Root);
+                    CallTreeValidation(AVLTree.Root);
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
                 }
@@ -106,7 +111,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(AVLTree.Root);
+            CallTreeValidation(AVLTree.Root);
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
         }
@@ -137,7 +142,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(AVLTree.Root);
+            CallTreeValidation(AVLTree.Root);
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
             //Now attempt to delete one node at a time
@@ -147,7 +152,7 @@ namespace BSTLibraryTest
                 AVLTree.Delete(e);
                 if (AVLTree.Root != null)
                 {
-                    Utility.TreeValidation(AVLTree.Root);
+                    CallTreeValidation(AVLTree.Root);
                     _ = TreeHeightVerification(AVLTree.Root);
                     BalacningFactorVerification(AVLTree.Root);
                 }
@@ -180,7 +185,7 @@ namespace BSTLibraryTest
                 inOrderList.Add(e);
             }
             Assert.AreEqual(inOrderList.Count, counter);
-            Utility.TreeValidation(AVLTree.Root);
+            CallTreeValidation(AVLTree.Root);
             _ = TreeHeightVerification(AVLTree.Root);
             BalacningFactorVerification(AVLTree.Root);
             foreach (var e in ints)
