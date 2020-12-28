@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// ReSharper disable once CheckNamespace
 namespace RustedWizard.BSTLibrary
 {
     //BST class
@@ -8,18 +9,18 @@ namespace RustedWizard.BSTLibrary
     //Support In-Order, PreOrder and Post-Order traversal of the tree.
     //Support find operation to tell if supplied data exists in Binary Search Tree
     //All supported operations are implemented without use of Recursion. So no stack overflow can happen.
-    public class BST<T> : IBST<T> where T : IComparable
+    public class Bst<T> : IBst<T> where T : IComparable
     {
-        internal BSTNode<T> Root { get; set; }
+        internal BstNode<T> Root { get; set; }
 
-        public BST()
+        public Bst()
         {
             Root = null;
         }
 
-        public BST(T data) 
+        public Bst(T data)
         {
-            Root = new BSTNode<T>(data);
+            Root = new BstNode<T>(data);
         }
 
         public void ClearTheTree()
@@ -27,32 +28,29 @@ namespace RustedWizard.BSTLibrary
             Root = null;
         }
 
-        public bool Insert(T Data)
+        public bool Insert(T data)
         {
             if (Root == null)
             {
-                Root = new BSTNode<T>(Data);
+                Root = new BstNode<T>(data);
                 return true;
             }
 
             var current = Root;
             while (true)
             {
-                if (Data.CompareTo(current.Data) < 0)
+                if (data.CompareTo(current.Data) < 0)
                 {
                     if (current.Left != null)
                     {
                         current = current.Left;
                         continue;
                     }
-                    else
-                    {
-                        current.Left = new BSTNode<T>(Data);
-                        return true;
-                    }
+                    current.Left = new BstNode<T>(data);
+                    return true;
                 }
                 //Duplicate data is not allowed in BST, if found, stop insertion and return false; 
-                if (Data.CompareTo(current.Data) == 0)
+                if (data.CompareTo(current.Data) == 0)
                 {
                     return false;
                 }
@@ -61,11 +59,8 @@ namespace RustedWizard.BSTLibrary
                     current = current.Right;
                     continue;
                 }
-                else
-                {
-                    current.Right = new BSTNode<T>(Data);
-                    return true;
-                }
+                current.Right = new BstNode<T>(data);
+                return true;
             }
         }
 
@@ -95,11 +90,8 @@ namespace RustedWizard.BSTLibrary
                         Root = Root.Left;
                         return true;
                     }
-                    else
-                    {
-                        Root = Root.Right;
-                        return true;
-                    }
+                    Root = Root.Right;
+                    return true;
                 }
                 //Root node has 2 child
                 var toDelete = Root.Right;
@@ -122,31 +114,22 @@ namespace RustedWizard.BSTLibrary
                     {
                         return false;
                     }
-                    else
-                    {
-                        prev = current;
-                        current = current.Left;
-                        continue;
-                    }
+                    prev = current;
+                    current = current.Left;
+                    continue;
+
                 }
                 if (current.Data.CompareTo(data) == 0)
                 {
                     found = true;
                     continue;
                 }
-                if (current.Data.CompareTo(data) < 0)
+                if (current.Right == null)
                 {
-                    if (current.Right == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        prev = current;
-                        current = current.Right;
-                        continue;
-                    }
+                    return false;
                 }
+                prev = current;
+                current = current.Right;
             }
             //delete the node
             while (true)
@@ -158,11 +141,9 @@ namespace RustedWizard.BSTLibrary
                         prev.Left = null;
                         return true;
                     }
-                    else
-                    {
-                        prev.Right = null;
-                        return true;
-                    }
+                    prev.Right = null;
+                    return true;
+
                 }
                 if (current.HasOneChild())
                 {
@@ -173,25 +154,16 @@ namespace RustedWizard.BSTLibrary
                             prev.Left = current.Left;
                             return true;
                         }
-                        else
-                        {
-                            prev.Left = current.Right;
-                            return true;
-                        }
+                        prev.Left = current.Right;
+                        return true;
                     }
-                    else
+                    if (current.Left != null)
                     {
-                        if (current.Left != null)
-                        {
-                            prev.Right = current.Left;
-                            return true;
-                        }
-                        else
-                        {
-                            prev.Right = current.Right;
-                            return true;
-                        }
+                        prev.Right = current.Left;
+                        return true;
                     }
+                    prev.Right = current.Right;
+                    return true;
                 }
                 prev = current;
                 var toDelete = current.Right;
@@ -208,48 +180,44 @@ namespace RustedWizard.BSTLibrary
         //Attempt to find data in BST
         public (bool Found, T Data) TryFind(T data)
         {
-            if(Root == null)
+            if (Root == null)
             {
                 return (false, default(T));
             }
             var current = Root;
             while (true)
             {
-                if(data.CompareTo(current.Data) < 0)
+                if (data.CompareTo(current.Data) < 0)
                 {
-                    if(current.Left == null)
+                    if (current.Left == null)
                     {
-                        return (false, default(T)); 
+                        return (false, default(T));
                     }
-                    else
-                    {
-                        current = current.Left;
-                        continue;
-                    }
+                    current = current.Left;
+                    continue;
                 }
                 if (data.CompareTo(current.Data) == 0)
                 {
                     return (true, current.Data);
                 }
-                if(current.Right == null)
+                if (current.Right == null)
                 {
                     return (false, default(T));
                 }
                 current = current.Right;
-                continue;
             }
         }
 
         public IEnumerable<T> InOrderTraverse()
         {
-            if(Root == null)
+            if (Root == null)
             {
                 yield break;
             }
             //use stack to keep tack all node instead of recursion
-            var stack = new Stack<BSTNode<T>>();
+            var stack = new Stack<BstNode<T>>();
             var current = Root;
-            while (stack.Count > 0 || current != null) 
+            while (stack.Count > 0 || current != null)
             {
                 while (current != null)
                 {
@@ -257,7 +225,7 @@ namespace RustedWizard.BSTLibrary
                     current = current.Left;
                 }
                 current = stack.Pop();
-                if(current.Right != null)
+                if (current.Right != null)
                 {
                     var data = current.Data;
                     current = current.Right;
@@ -269,7 +237,6 @@ namespace RustedWizard.BSTLibrary
                     current = null;
                     yield return data;
                 }
-                 
             }
         }
 
@@ -279,9 +246,9 @@ namespace RustedWizard.BSTLibrary
             {
                 yield break;
             }
-            var stack = new Stack<BSTNode<T>>();
+            var stack = new Stack<BstNode<T>>();
             stack.Push(Root);
-            while(stack.Count>0)
+            while (stack.Count > 0)
             {
                 var current = stack.Pop();
                 if (current.Right != null)
@@ -302,23 +269,23 @@ namespace RustedWizard.BSTLibrary
             {
                 yield break;
             }
-            var stack = new Stack<BSTNode<T>>();
-            var res = new Stack<BSTNode<T>>();
+            var stack = new Stack<BstNode<T>>();
+            var res = new Stack<BstNode<T>>();
             stack.Push(Root);
             while (stack.Count > 0)
             {
                 var current = stack.Pop();
                 res.Push(current);
-                if(current.Left != null)
+                if (current.Left != null)
                 {
                     stack.Push(current.Left);
                 }
-                if(current.Right != null)
+                if (current.Right != null)
                 {
                     stack.Push(current.Right);
                 }
             }
-            while(res.Count > 0)
+            while (res.Count > 0)
             {
                 yield return res.Pop().Data;
             }

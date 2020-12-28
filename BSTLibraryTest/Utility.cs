@@ -6,13 +6,13 @@ namespace BSTLibraryTest
 {
     class Utility
     {
-        public static void TreeValidation(IBSTNode<int> n)
+        public static void TreeValidation(IBstNode<int> n)
         {
-            var stack = new Stack<IBSTNode<int>>();
+            var stack = new Stack<IBstNode<int>>();
             stack.Push(n);
             while(stack.Count > 0)
             {
-                IBSTNode<int> current = stack.Pop();
+                IBstNode<int> current = stack.Pop();
                 bool res;
                 if (current.IsLeafNode())
                 {

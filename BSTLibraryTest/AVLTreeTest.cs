@@ -1,20 +1,20 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RustedWizard.BSTLibrary;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace BSTLibraryTest
 {
     [TestClass]
-    public class AVLTreeTest
+    public class AvlTreeTest
     {
-        private void CallTreeValidation(AVLNode<int> node)
+        private static void CallTreeValidation(AvlNode<int> node)
         {
             Utility.TreeValidation(node);
         }
 
         //Verify the Height Property of each node AVLTree contains correct value.
-        private int TreeHeightVerification(AVLNode<int> node)
+        private static int TreeHeightVerification(AvlNode<int> node)
         {
             int h;
             if (node.IsLeafNode())
@@ -43,11 +43,11 @@ namespace BSTLibraryTest
         //Verify that every subtree at given node has balancing factor with range of -2(exclusive) to 2(exclusive)
         //This test relies on the Height property of AVL Tree, so it shall only be performed after the Height property 
         //has been verified by TreeHeightVerification method to ensure the correctness of this test.
-        private void BalacningFactorVerification(AVLNode<int> node)
+        private static void BalancingFactorVerification(AvlNode<int> node)
         {
             int bf;
             bool res;
-            if(node == null)
+            if (node == null)
             {
                 return;
             }
@@ -62,135 +62,101 @@ namespace BSTLibraryTest
                     bf = node.Left.Height - 0;
                     res = (bf > -2 && bf < 2);
                     Assert.IsTrue(res);
-                    BalacningFactorVerification(node.Left);
+                    BalancingFactorVerification(node.Left);
                     return;
                 }
-                else
-                {
-                    bf = 0 - node.Right.Height;
-                    res = (bf > -2 && bf < 2);
-                    Assert.IsTrue(res);
-                    BalacningFactorVerification(node.Right);
-                    return;
-                }
+                bf = 0 - node.Right.Height;
+                res = (bf > -2 && bf < 2);
+                Assert.IsTrue(res);
+                BalancingFactorVerification(node.Right);
+                return;
             }
             bf = node.Left.Height - node.Right.Height;
             res = (bf > -2 && bf < 2);
             Assert.IsTrue(res);
-            BalacningFactorVerification(node.Left);
-            BalacningFactorVerification(node.Right);
-            return;
+            BalancingFactorVerification(node.Left);
+            BalancingFactorVerification(node.Right);
         }
 
         [TestMethod]
         public void InsertionTest()
         {
-            var AVLTree = new AVLTree<int>();
-            var Rnd = new Random();
+            var avlTree = new AvlTree<int>();
+            var rnd = new Random();
             //Generate 20 random integer
-            int[] ints = new int[20000];
-            for (int i = 0; i < 20000; i++)
+            var testData = new int[20000];
+            for (var i = 0; i < 20000; i++)
             {
-                ints[i] = Rnd.Next(-20000, 20000);
+                testData[i] = rnd.Next(-20000, 20000);
             }
-            int counter = 0;
-            foreach (var e in ints)
+            var counter = 0;
+            foreach (var e in testData)
             {
-                var res = AVLTree.Insert(e);
+                var res = avlTree.Insert(e);
                 if (res)
                 {
                     counter++;
-                    CallTreeValidation(AVLTree.Root);
-                    _ = TreeHeightVerification(AVLTree.Root);
-                    BalacningFactorVerification(AVLTree.Root);
+                    CallTreeValidation(avlTree.Root);
+                    _ = TreeHeightVerification(avlTree.Root);
+                    BalancingFactorVerification(avlTree.Root);
                 }
             }
-            var inOrderList = new List<int>();
-            foreach (var e in AVLTree.InOrderTraverse())
-            {
-                inOrderList.Add(e);
-            }
+            var inOrderList = avlTree.InOrderTraverse().ToList();
             Assert.AreEqual(inOrderList.Count, counter);
-            CallTreeValidation(AVLTree.Root);
-            _ = TreeHeightVerification(AVLTree.Root);
-            BalacningFactorVerification(AVLTree.Root);
+            CallTreeValidation(avlTree.Root);
+            _ = TreeHeightVerification(avlTree.Root);
+            BalancingFactorVerification(avlTree.Root);
         }
 
         [TestMethod]
         public void DeletionTest()
         {
-            var AVLTree = new AVLTree<int>();
-            var Rnd = new Random();
+            var avlTree = new AvlTree<int>();
+            var rnd = new Random();
             //Generate 20 random integer
-            int[] ints = new int[20000];
-            for (int i = 0; i < 20000; i++)
+            var testData = new int[20000];
+            for (var i = 0; i < 20000; i++)
             {
-                ints[i] = Rnd.Next(-20000, 20000);
+                testData[i] = rnd.Next(-20000, 20000);
             }
-            int counter = 0;
-            foreach (var e in ints)
-            {
-                var res = AVLTree.Insert(e);
-                if (res)
-                {
-                    counter++;
-                }
-            }
-            var inOrderList = new List<int>();
-            foreach (var e in AVLTree.InOrderTraverse())
-            {
-                inOrderList.Add(e);
-            }
+            var counter = testData.Select(e => avlTree.Insert(e)).Count(res => res);
+            var inOrderList = avlTree.InOrderTraverse().ToList();
             Assert.AreEqual(inOrderList.Count, counter);
-            CallTreeValidation(AVLTree.Root);
-            _ = TreeHeightVerification(AVLTree.Root);
-            BalacningFactorVerification(AVLTree.Root);
+            CallTreeValidation(avlTree.Root);
+            _ = TreeHeightVerification(avlTree.Root);
+            BalancingFactorVerification(avlTree.Root);
             //Now attempt to delete one node at a time
             //and verify tree validity after each deletion
-            foreach (var e in ints)
+            foreach (var e in testData)
             {
-                AVLTree.Delete(e);
-                if (AVLTree.Root != null)
-                {
-                    CallTreeValidation(AVLTree.Root);
-                    _ = TreeHeightVerification(AVLTree.Root);
-                    BalacningFactorVerification(AVLTree.Root);
-                }
+                avlTree.Delete(e);
+                if (avlTree.Root == null) continue;
+                CallTreeValidation(avlTree.Root);
+                _ = TreeHeightVerification(avlTree.Root);
+                BalancingFactorVerification(avlTree.Root);
             }
         }
 
         [TestMethod]
         public void FindTest()
         {
-            var AVLTree = new AVLTree<int>();
-            var Rnd = new Random();
+            var avlTree = new AvlTree<int>();
+            var rnd = new Random();
             //Generate 20 random integer
-            int[] ints = new int[20000];
-            for (int i = 0; i < 20000; i++) 
+            var testData = new int[20000];
+            for (int i = 0; i < 20000; i++)
             {
-                ints[i] = Rnd.Next(-20000, 20000);
+                testData[i] = rnd.Next(-20000, 20000);
             }
-            int counter = 0;
-            foreach (var e in ints)
-            {
-                var res = AVLTree.Insert(e);
-                if (res)
-                {
-                    counter++;
-                }
-            }
-            var inOrderList = new List<int>();
-            foreach (var e in AVLTree.InOrderTraverse())
-            {
-                inOrderList.Add(e);
-            }
+            var counter = testData.Select(e => avlTree.Insert(e)).Count(res => res);
+            var inOrderList = avlTree.InOrderTraverse().ToList();
             Assert.AreEqual(inOrderList.Count, counter);
-            CallTreeValidation(AVLTree.Root);
-            _ = TreeHeightVerification(AVLTree.Root);
-            BalacningFactorVerification(AVLTree.Root);
-            foreach (var e in ints)
+            CallTreeValidation(avlTree.Root);
+            _ = TreeHeightVerification(avlTree.Root);
+            BalancingFactorVerification(avlTree.Root);
+            foreach (var e in testData)
             {
-                var res = AVLTree.TryFind(e);
+                var res = avlTree.TryFind(e);
                 Assert.IsTrue(res.Found);
                 Assert.AreEqual(res.Data, e);
             }
@@ -198,7 +164,7 @@ namespace BSTLibraryTest
             //the tree and try to find. Expected false return.
             for (int i = 0; i < 100; i++)
             {
-                var res = AVLTree.TryFind(Rnd.Next(21000, 50000));
+                var res = avlTree.TryFind(rnd.Next(21000, 50000));
                 Assert.IsFalse(res.Found);
             }
         }
@@ -206,27 +172,27 @@ namespace BSTLibraryTest
         [TestMethod]
         public void StressTest()
         {
-            var AVLTree = new AVLTree<int>();
-            var Rnd = new Random();
+            var avlTree = new AvlTree<int>();
+            var rnd = new Random();
             //Generate 20 random integer
-            int[] ints = new int[9999999];
-            for (int i = 0; i < 9999999; i++)
+            var testData = new int[9999999];
+            for (var i = 0; i < 9999999; i++)
             {
-                ints[i] = Rnd.Next(-2000000, 2000000);
+                testData[i] = rnd.Next(-2000000, 2000000);
             }
-            foreach (var e in ints)
+            foreach (var e in testData)
             {
-                AVLTree.Insert(e);
+                avlTree.Insert(e);
             }
-            foreach (var e in ints)
+            foreach (var e in testData)
             {
-                var res = AVLTree.TryFind(e);
+                var res = avlTree.TryFind(e);
                 Assert.IsTrue(res.Found);
                 Assert.AreEqual(res.Data, e);
             }
-            foreach (var e in ints)
+            foreach (var e in testData)
             {
-                AVLTree.Delete(e);
+                avlTree.Delete(e);
             }
         }
     }

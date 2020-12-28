@@ -1,14 +1,15 @@
 ﻿using System;
 
+// ReSharper disable once CheckNamespace
 namespace RustedWizard.BSTLibrary
 {
-    internal class BSTNode<T> : IBSTNode<T> where T : IComparable
+    internal class BstNode<T> : IBstNode<T> where T : IComparable
     {
         public T Data { get; set; }
-        public BSTNode<T> Left { get; set; }
-        public BSTNode<T> Right { get; set; }
+        public BstNode<T> Left { get; set; }
+        public BstNode<T> Right { get; set; }
 
-        public BSTNode(T data)
+        public BstNode(T data)
         {
             Data = data;
             Left = null;
@@ -25,12 +26,12 @@ namespace RustedWizard.BSTLibrary
             return ((Left == null && Right != null) || (Left != null && Right == null));
         }
 
-        public IBSTNode<T> GetLeft()
+        public IBstNode<T> GetLeft()
         {
             return Left;
         }
 
-        public IBSTNode<T> GetRight()
+        public IBstNode<T> GetRight()
         {
             return Right;
         }

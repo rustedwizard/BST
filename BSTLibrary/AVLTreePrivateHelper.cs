@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// ReSharper disable once CheckNamespace
 namespace RustedWizard.BSTLibrary
 {
-    public partial class AVLTree<T> : IBST<T> where T : IComparable
+    public partial class AvlTree<T> where T : IComparable
     {
         //Following methods are helper method for treeBalancing method
         //Should not be used anywhere else.
         #region Tree Balancing Helper methods
-        private int getBalancingFactor(AVLNode<T> node)
+        private int GetBalancingFactor(AvlNode<T> node)
         {
             //no child, balancing factor is 0
             if (node.IsLeafNode())
@@ -33,7 +34,7 @@ namespace RustedWizard.BSTLibrary
             return (node.Left.Height - node.Right.Height);
         }
 
-        private int getSubtreeHeight(AVLNode<T> node)
+        private int GetSubtreeHeight(AvlNode<T> node)
         {
             if (node.IsLeafNode())
             {
@@ -56,7 +57,7 @@ namespace RustedWizard.BSTLibrary
         }
 
         #region Rotations
-        private AVLNode<T> LeftRightRotation(AVLNode<T> node)
+        private AvlNode<T> LeftRightRotation(AvlNode<T> node)
         {
             var left = node.Left;
             var lr = left.Right;
@@ -64,13 +65,13 @@ namespace RustedWizard.BSTLibrary
             node.Left = lr.Right;
             lr.Left = left;
             lr.Right = node;
-            left.Height = getSubtreeHeight(left) + 1;
-            node.Height = getSubtreeHeight(node) + 1;
-            lr.Height = getSubtreeHeight(lr) + 1;
+            left.Height = GetSubtreeHeight(left) + 1;
+            node.Height = GetSubtreeHeight(node) + 1;
+            lr.Height = GetSubtreeHeight(lr) + 1;
             return lr;
         }
 
-        private AVLNode<T> LeftLeftRotation(AVLNode<T> node)
+        private AvlNode<T> LeftLeftRotation(AvlNode<T> node)
         {
             var left = node.Left;
             var lr = node.Left.Right;
@@ -78,14 +79,14 @@ namespace RustedWizard.BSTLibrary
             left.Right = node;
             if (lr != null)
             {
-                lr.Height = getSubtreeHeight(lr) + 1;
+                lr.Height = GetSubtreeHeight(lr) + 1;
             }
-            node.Height = getSubtreeHeight(node) + 1;
-            left.Height = getSubtreeHeight(left) + 1;
+            node.Height = GetSubtreeHeight(node) + 1;
+            left.Height = GetSubtreeHeight(left) + 1;
             return left;
         }
 
-        private AVLNode<T> RightRightRotation(AVLNode<T> node)
+        private AvlNode<T> RightRightRotation(AvlNode<T> node)
         {
             var right = node.Right;
             var rl = node.Right.Left;
@@ -93,14 +94,14 @@ namespace RustedWizard.BSTLibrary
             right.Left = node;
             if (rl != null)
             {
-                rl.Height = getSubtreeHeight(rl) + 1;
+                rl.Height = GetSubtreeHeight(rl) + 1;
             }
-            node.Height = getSubtreeHeight(node) + 1;
-            right.Height = getSubtreeHeight(right) + 1;
+            node.Height = GetSubtreeHeight(node) + 1;
+            right.Height = GetSubtreeHeight(right) + 1;
             return right;
         }
 
-        private AVLNode<T> RightLeftRotation(AVLNode<T> node)
+        private AvlNode<T> RightLeftRotation(AvlNode<T> node)
         {
             var right = node.Right;
             var rl = node.Right.Left;
@@ -108,28 +109,28 @@ namespace RustedWizard.BSTLibrary
             right.Left = rl.Right;
             rl.Left = node;
             rl.Right = right;
-            node.Height = getSubtreeHeight(node) + 1;
-            right.Height = getSubtreeHeight(right) + 1;
-            rl.Height = getSubtreeHeight(rl) + 1;
+            node.Height = GetSubtreeHeight(node) + 1;
+            right.Height = GetSubtreeHeight(right) + 1;
+            rl.Height = GetSubtreeHeight(rl) + 1;
             return rl;
         }
         #endregion
         #endregion
 
-        partial void treeBalancing(Stack<AVLNode<T>> stack)
+        partial void TreeBalancing(Stack<AvlNode<T>> stack)
         {
             while (stack.Count > 0)
             {
                 var node = stack.Pop();
                 //update the height of node first.
-                node.Height = getSubtreeHeight(node) + 1;
+                node.Height = GetSubtreeHeight(node) + 1;
                 //get balancing factor of left and right subtree.
-                var bf = getBalancingFactor(node);
+                var bf = GetBalancingFactor(node);
                 //when balancing factor is 2 -> LeftLeft or LeftRight rotation
                 if (bf == 2)
                 {
                     //if left child has balancing factor of 1 -> LeftLeftRotation
-                    if (getBalancingFactor(node.Left) >= 0)
+                    if (GetBalancingFactor(node.Left) >= 0)
                     {
                         if (stack.Count > 0)
                         {
@@ -150,7 +151,7 @@ namespace RustedWizard.BSTLibrary
                         }
                     }
                     //if left child has balancing factor of -1 -> LeftRightRotaion
-                    if (getBalancingFactor(node.Left) == -1)
+                    if (GetBalancingFactor(node.Left) == -1)
                     {
                         if (stack.Count > 0)
                         {
@@ -176,7 +177,7 @@ namespace RustedWizard.BSTLibrary
                 if (bf == -2)
                 {
                     //if Right Child has balancing factor of -1 -> RightRightRotation
-                    if (getBalancingFactor(node.Right) <=0)
+                    if (GetBalancingFactor(node.Right) <=0)
                     {
                         if (stack.Count > 0)
                         {
@@ -197,7 +198,7 @@ namespace RustedWizard.BSTLibrary
                         }
                     }
                     //if Right Child has balancing factor of 1 -> RightLeftRotation
-                    if (getBalancingFactor(node.Right) == 1)
+                    if (GetBalancingFactor(node.Right) == 1)
                     {
                         if (stack.Count > 0)
                         {
@@ -209,12 +210,10 @@ namespace RustedWizard.BSTLibrary
                             {
                                 stack.Peek().Right = RightLeftRotation(node);
                             }
-                            continue;
                         }
                         else
                         {
                             Root = RightLeftRotation(node);
-                            continue;
                         }
                     }
                 }

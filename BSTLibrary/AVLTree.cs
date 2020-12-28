@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// ReSharper disable once CheckNamespace
 namespace RustedWizard.BSTLibrary
 {
     /// <summary>
     /// AVLTree class.
-    /// Enables the creation, insertion, deletion, searching, and traversal(in-order, pre-order and post-order) functions.
+    /// Enables the creation, insertion, deletion, searching, and traversal(in-order, preorder and post-order) functions.
     /// This class implement AVL Tree which after each insertion and deletion, tree is balanced to enable optimal searching performance.
     /// </summary>
     /// <typeparam name="T">This class allows any type as long as that type implement System.IComparable Interface</typeparam>
-    public partial class AVLTree<T> : IBST<T> where T : IComparable
+    public partial class AvlTree<T> : IBst<T> where T : IComparable
     {
-        internal AVLNode<T> Root { get; set; }
+        internal AvlNode<T> Root { get; set; }
 
         //Partial Method
         //For declaration purpose since it is used in this file
         //To find detail implementation go to file AVLTreePrivateHelper.cs
-        partial void treeBalancing(Stack<AVLNode<T>> stack);
+        partial void TreeBalancing(Stack<AvlNode<T>> stack);
 
         /// <summary>
         /// Empty all elements in the tree.
@@ -31,25 +32,24 @@ namespace RustedWizard.BSTLibrary
         /// If data is actually inserted, method will return true.
         /// If duplicate data is found, duplicate data will not be inserted and method will return false.
         /// </summary>
-        /// <param name="Data">The data intended to be insert into this AVL Tree.</param>
+        /// <param name="data">The data intended to be insert into this AVL Tree.</param>
         /// <returns></returns>
-        public bool Insert(T Data)
+        public bool Insert(T data)
         {
             if (Root == null)
             {
-                Root = new AVLNode<T>(Data);
-                Root.Height = 1;
+                Root = new AvlNode<T>(data) { Height = 1 };
                 return true;
             }
             var res = true;
             var current = Root;
             //use stack keep record of traverse path
-            var stack = new Stack<AVLNode<T>>();
+            var stack = new Stack<AvlNode<T>>();
             stack.Push(current);
             while (true)
             {
                 //Data to be inserted is smaller then current node, go left
-                if (Data.CompareTo(current.Data) < 0)
+                if (data.CompareTo(current.Data) < 0)
                 {
                     if (current.Left != null)
                     {
@@ -57,15 +57,13 @@ namespace RustedWizard.BSTLibrary
                         stack.Push(current);
                         continue;
                     }
-                    else
-                    {
-                        current.Left = new AVLNode<T>(Data);
-                        stack.Push(current.Left);
-                        break;
-                    }
+                    current.Left = new AvlNode<T>(data);
+                    stack.Push(current.Left);
+                    break;
+
                 }
                 //Duplicate data is not allowed in BST, if found, stop insertion and return false; 
-                if (Data.CompareTo(current.Data) == 0)
+                if (data.CompareTo(current.Data) == 0)
                 {
                     res = false;
                     break;
@@ -77,17 +75,14 @@ namespace RustedWizard.BSTLibrary
                     stack.Push(current);
                     continue;
                 }
-                else
-                {
-                    current.Right = new AVLNode<T>(Data);
-                    stack.Push(current.Right);
-                    break;
-                }
+                current.Right = new AvlNode<T>(data);
+                stack.Push(current.Right);
+                break;
             }
             if (res)
             {
                 //if data inserted, balancing the tree
-                treeBalancing(stack);
+                TreeBalancing(stack);
             }
             return res;
         }
@@ -101,11 +96,11 @@ namespace RustedWizard.BSTLibrary
         /// <returns></returns>
         public bool Delete(T data)
         {
-            if(Root == null)
+            if (Root == null)
             {
                 return false;
             }
-            var stack = new Stack<AVLNode<T>>();
+            var stack = new Stack<AvlNode<T>>();
             var found = false;
             var current = Root;
             if (Root.Data.CompareTo(data) == 0)
@@ -122,11 +117,8 @@ namespace RustedWizard.BSTLibrary
                         Root = Root.Left;
                         return true;
                     }
-                    else
-                    {
-                        Root = Root.Right;
-                        return true;
-                    }
+                    Root = Root.Right;
+                    return true;
                 }
                 stack.Push(Root);
                 var toDelete = Root.Right;
@@ -160,21 +152,13 @@ namespace RustedWizard.BSTLibrary
                     found = true;
                     continue;
                 }
-                if (current.Data.CompareTo(data) < 0)
+                if (current.Right == null)
                 {
-                    if (current.Right == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        stack.Push(current);
-                        current = current.Right;
-                        continue;
-                    }
+                    return false;
                 }
+                stack.Push(current);
+                current = current.Right;
             }
-            bool res;
             while (true)
             {
                 if (current.IsLeafNode())
@@ -182,13 +166,11 @@ namespace RustedWizard.BSTLibrary
                     if (stack.Peek().Left == current)
                     {
                         stack.Peek().Left = null;
-                        res = true;
                         break;
                     }
                     else
                     {
                         stack.Peek().Right = null;
-                        res = true;
                         break;
                     }
                 }
@@ -199,31 +181,18 @@ namespace RustedWizard.BSTLibrary
                         if (current.Left != null)
                         {
                             stack.Peek().Left = current.Left;
-                            res = true;
                             break;
                         }
-                        else
-                        {
-                            stack.Peek().Left = current.Right;
-                            res = true;
-                            break;
-                        }
+                        stack.Peek().Left = current.Right;
+                        break;
                     }
-                    else
+                    if (current.Left != null)
                     {
-                        if (current.Left != null)
-                        {
-                            stack.Peek().Right = current.Left;
-                            res = true;
-                            break;
-                        }
-                        else
-                        {
-                            stack.Peek().Right = current.Right;
-                            res = true;
-                            break;
-                        }
+                        stack.Peek().Right = current.Left;
+                        break;
                     }
+                    stack.Peek().Right = current.Right;
+                    break;
                 }
                 stack.Push(current);
                 var toDelete = current.Right;
@@ -233,13 +202,10 @@ namespace RustedWizard.BSTLibrary
                     toDelete = toDelete.Left;
                 }
                 current = toDelete;
-                current.Data = toDelete.Data; 
+                current.Data = toDelete.Data;
             }
-            if (res)
-            {
-                treeBalancing(stack);
-            }
-            return res;
+            TreeBalancing(stack);
+            return true;
         }
 
         /// <summary>
@@ -284,7 +250,6 @@ namespace RustedWizard.BSTLibrary
                     return (false, default(T));
                 }
                 current = current.Right;
-                continue;
             }
         }
 
@@ -302,7 +267,7 @@ namespace RustedWizard.BSTLibrary
                 yield break;
             }
             //use stack to keep tack all node instead of recursion
-            var stack = new Stack<AVLNode<T>>();
+            var stack = new Stack<AvlNode<T>>();
             var current = Root;
             while (stack.Count > 0 || current != null)
             {
@@ -339,7 +304,7 @@ namespace RustedWizard.BSTLibrary
             {
                 yield break;
             }
-            var stack = new Stack<AVLNode<T>>();
+            var stack = new Stack<AvlNode<T>>();
             stack.Push(Root);
             while (stack.Count > 0)
             {
@@ -367,8 +332,8 @@ namespace RustedWizard.BSTLibrary
             {
                 yield break;
             }
-            var stack = new Stack<AVLNode<T>>();
-            var res = new Stack<AVLNode<T>>();
+            var stack = new Stack<AvlNode<T>>();
+            var res = new Stack<AvlNode<T>>();
             stack.Push(Root);
             while (stack.Count > 0)
             {

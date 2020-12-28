@@ -8,26 +8,26 @@ namespace PefromanceTest
     {
         static void Main(string[] args)
         {
-            var AVLTree = new AVLTree<int>();
-            var Rnd = new Random();
+            var avlTree = new AvlTree<int>();
+            var rnd = new Random();
             //Generate 20 random integer
             int[] ints = new int[100000];
             for (int i = 0; i < 100000; i++)
             {
-                ints[i] = Rnd.Next(-2000000, 2000000);
+                ints[i] = rnd.Next(-2000000, 2000000);
             }
             foreach (var e in ints)
             {
-                AVLTree.Insert(e);
+                avlTree.Insert(e);
             }
             foreach (var e in ints)
             {
-                var res = AVLTree.TryFind(e);
+                var res = avlTree.TryFind(e);
                 Console.WriteLine($"number: {e}, found: {res.Found}");
             }
             foreach (var e in ints)
             {
-                AVLTree.Delete(e);
+                avlTree.Delete(e);
             }
         }
     }
