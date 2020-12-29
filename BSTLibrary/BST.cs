@@ -196,115 +196,22 @@ namespace RustedWizard.BSTLibrary
         //Attempt to find data in BST
         public (bool Found, T Data) TryFind(T data)
         {
-            if (Root == null)
-            {
-                return (false, default(T));
-            }
-            var current = Root;
-            while (true)
-            {
-                if (data.CompareTo(current.Data) < 0)
-                {
-                    if (current.Left == null)
-                    {
-                        return (false, default(T));
-                    }
-                    current = current.Left;
-                    continue;
-                }
-                if (data.CompareTo(current.Data) == 0)
-                {
-                    return (true, current.Data);
-                }
-                if (current.Right == null)
-                {
-                    return (false, default(T));
-                }
-                current = current.Right;
-            }
+            return TreeTraverse<T>.CreateTreeTraverse().TryFind(data, Root);
         }
 
         public IEnumerable<T> InOrderTraverse()
         {
-            if (Root == null)
-            {
-                yield break;
-            }
-            //use stack to keep tack all node instead of recursion
-            var stack = new Stack<BstNode<T>>();
-            var current = Root;
-            while (stack.Count > 0 || current != null)
-            {
-                while (current != null)
-                {
-                    stack.Push(current);
-                    current = current.Left;
-                }
-                current = stack.Pop();
-                if (current.Right != null)
-                {
-                    var data = current.Data;
-                    current = current.Right;
-                    yield return data;
-                }
-                else
-                {
-                    var data = current.Data;
-                    current = null;
-                    yield return data;
-                }
-            }
+            return TreeTraverse<T>.CreateTreeTraverse().InOrderTraversal(Root);
         }
 
         public IEnumerable<T> PreOrderTraverse()
         {
-            if (Root == null)
-            {
-                yield break;
-            }
-            var stack = new Stack<BstNode<T>>();
-            stack.Push(Root);
-            while (stack.Count > 0)
-            {
-                var current = stack.Pop();
-                if (current.Right != null)
-                {
-                    stack.Push(current.Right);
-                }
-                if (current.Left != null)
-                {
-                    stack.Push(current.Left);
-                }
-                yield return current.Data;
-            }
+            return TreeTraverse<T>.CreateTreeTraverse().PreOrderTraversal(Root);
         }
 
         public IEnumerable<T> PostOrderTraverse()
         {
-            if (Root == null)
-            {
-                yield break;
-            }
-            var stack = new Stack<BstNode<T>>();
-            var res = new Stack<BstNode<T>>();
-            stack.Push(Root);
-            while (stack.Count > 0)
-            {
-                var current = stack.Pop();
-                res.Push(current);
-                if (current.Left != null)
-                {
-                    stack.Push(current.Left);
-                }
-                if (current.Right != null)
-                {
-                    stack.Push(current.Right);
-                }
-            }
-            while (res.Count > 0)
-            {
-                yield return res.Pop().Data;
-            }
+            return TreeTraverse<T>.CreateTreeTraverse().PostOrderTraversal(Root);
         }
     }
 }

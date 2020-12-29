@@ -255,39 +255,9 @@ namespace RustedWizard.BSTLibrary
         /// </returns>
         public (bool Found, T Data) TryFind(T data)
         {
-            if (Root == null)
-            {
-                return (false, default(T));
-            }
-            var current = Root;
-            while (true)
-            {
-                if (data.CompareTo(current.Data) < 0)
-                {
-                    if (current.Left == null)
-                    {
-                        return (false, default(T));
-                    }
-                    else
-                    {
-                        current = current.Left;
-                        continue;
-                    }
-                }
-                if (data.CompareTo(current.Data) == 0)
-                {
-                    return (true, current.Data);
-                }
-                if (current.Right == null)
-                {
-                    return (false, default(T));
-                }
-                current = current.Right;
-            }
+            return TreeTraverse<T>.CreateTreeTraverse().TryFind(data, Root);
         }
 
-
-        #region tree traversal
         /// <summary>
         /// In order traversal of AVL Tree
         /// Standard In order traversal of Binary tree (In this case this AVL Tree)
@@ -295,35 +265,7 @@ namespace RustedWizard.BSTLibrary
         /// <returns>Enumerable Collection of Data in In-Order sequence.</returns>
         public IEnumerable<T> InOrderTraverse()
         {
-            if (Root == null)
-            {
-                yield break;
-            }
-            //use stack to keep tack all node instead of recursion
-            var stack = new Stack<AvlNode<T>>();
-            var current = Root;
-            while (stack.Count > 0 || current != null)
-            {
-                while (current != null)
-                {
-                    stack.Push(current);
-                    current = current.Left;
-                }
-                current = stack.Pop();
-                if (current.Right != null)
-                {
-                    var data = current.Data;
-                    current = current.Right;
-                    yield return data;
-                }
-                else
-                {
-                    var data = current.Data;
-                    current = null;
-                    yield return data;
-                }
-
-            }
+            return TreeTraverse<T>.CreateTreeTraverse().InOrderTraversal(Root);
         }
 
         /// <summary>
@@ -333,25 +275,7 @@ namespace RustedWizard.BSTLibrary
         /// <returns>Enumerable Collection of Data in Pre-Order sequence.</returns>
         public IEnumerable<T> PreOrderTraverse()
         {
-            if (Root == null)
-            {
-                yield break;
-            }
-            var stack = new Stack<AvlNode<T>>();
-            stack.Push(Root);
-            while (stack.Count > 0)
-            {
-                var current = stack.Pop();
-                if (current.Right != null)
-                {
-                    stack.Push(current.Right);
-                }
-                if (current.Left != null)
-                {
-                    stack.Push(current.Left);
-                }
-                yield return current.Data;
-            }
+            return TreeTraverse<T>.CreateTreeTraverse().PreOrderTraversal(Root);
         }
 
         /// <summary>
@@ -361,33 +285,7 @@ namespace RustedWizard.BSTLibrary
         /// <returns>Enumerable Collection of Data in Post-Order sequence.</returns>
         public IEnumerable<T> PostOrderTraverse()
         {
-            if (Root == null)
-            {
-                yield break;
-            }
-            var stack = new Stack<AvlNode<T>>();
-            var res = new Stack<AvlNode<T>>();
-            stack.Push(Root);
-            while (stack.Count > 0)
-            {
-                var current = stack.Pop();
-                res.Push(current);
-                if (current.Left != null)
-                {
-                    stack.Push(current.Left);
-                }
-                if (current.Right != null)
-                {
-                    stack.Push(current.Right);
-                }
-            }
-            while (res.Count > 0)
-            {
-                yield return res.Pop().Data;
-            }
+            return TreeTraverse<T>.CreateTreeTraverse().PostOrderTraversal(Root);
         }
-        #endregion
-
-
     }
 }
