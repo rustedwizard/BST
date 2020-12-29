@@ -13,6 +13,19 @@ namespace RustedWizard.BSTLibrary
     public partial class AvlTree<T> : IBst<T> where T : IComparable
     {
         internal AvlNode<T> Root { get; set; }
+        public int TreeSize { get; private set; }
+
+        public AvlTree()
+        {
+            Root = null;
+            TreeSize = 0;
+        }
+
+        public AvlTree(T data)
+        {
+            Root = new AvlNode<T>(data);
+            TreeSize++;
+        }
 
         //Partial Method
         //For declaration purpose since it is used in this file
@@ -25,6 +38,7 @@ namespace RustedWizard.BSTLibrary
         public void ClearTheTree()
         {
             Root = null;
+            TreeSize = 0;
         }
 
         /// <summary>
@@ -36,9 +50,11 @@ namespace RustedWizard.BSTLibrary
         /// <returns></returns>
         public bool Insert(T data)
         {
+            //handling an empty tree
             if (Root == null)
             {
                 Root = new AvlNode<T>(data) { Height = 1 };
+                TreeSize++;
                 return true;
             }
             var res = true;
@@ -57,6 +73,7 @@ namespace RustedWizard.BSTLibrary
                         stack.Push(current);
                         continue;
                     }
+                    //if has no left child, insert new node here
                     current.Left = new AvlNode<T>(data);
                     stack.Push(current.Left);
                     break;
@@ -75,13 +92,15 @@ namespace RustedWizard.BSTLibrary
                     stack.Push(current);
                     continue;
                 }
+                //If has no right child, insert new node here
                 current.Right = new AvlNode<T>(data);
                 stack.Push(current.Right);
                 break;
             }
             if (res)
             {
-                //if data inserted, balancing the tree
+                //if data inserted, increase tree size and balancing the tree
+                TreeSize++;
                 TreeBalancing(stack);
             }
             return res;
@@ -108,6 +127,7 @@ namespace RustedWizard.BSTLibrary
                 if (Root.IsLeafNode())
                 {
                     Root = null;
+                    TreeSize--;
                     return true;
                 }
                 if (Root.HasOneChild())
@@ -115,9 +135,11 @@ namespace RustedWizard.BSTLibrary
                     if (Root.Left != null)
                     {
                         Root = Root.Left;
+                        TreeSize--;
                         return true;
                     }
                     Root = Root.Right;
+                    TreeSize--;
                     return true;
                 }
                 stack.Push(Root);
@@ -131,7 +153,6 @@ namespace RustedWizard.BSTLibrary
                 Root.Data = toDelete.Data;
                 found = true;
             }
-
             while (!found)
             {
                 if (current.Data.CompareTo(data) > 0)
@@ -163,47 +184,59 @@ namespace RustedWizard.BSTLibrary
             {
                 if (current.IsLeafNode())
                 {
+                    //Left child detected, delete!
                     if (stack.Peek().Left == current)
                     {
                         stack.Peek().Left = null;
                         break;
                     }
-                    else
-                    {
-                        stack.Peek().Right = null;
-                        break;
-                    }
+                    //Otherwise delete right child.
+                    stack.Peek().Right = null;
+                    break;
                 }
                 if (current.HasOneChild())
                 {
+                    //Left child detected
                     if (stack.Peek().Left == current)
                     {
+                        //Node to be deleted has left child
                         if (current.Left != null)
                         {
                             stack.Peek().Left = current.Left;
                             break;
                         }
+                        //Node to be deleted has right child
                         stack.Peek().Left = current.Right;
                         break;
                     }
+                    //Right child detected
+                    //Node to be deleted has left child
                     if (current.Left != null)
                     {
                         stack.Peek().Right = current.Left;
                         break;
                     }
+                    //node to be deleted has right child
                     stack.Peek().Right = current.Right;
                     break;
                 }
+                //Node to be deleted has two children 
                 stack.Push(current);
+                //find left most node of right subtree of node to be deleted
                 var toDelete = current.Right;
                 while (toDelete.Left != null)
                 {
                     stack.Push(toDelete);
                     toDelete = toDelete.Left;
                 }
-                current = toDelete;
+                //set data of original node to be delete to the data of left most node
                 current.Data = toDelete.Data;
+                //set the left most node to be the node to delete
+                current = toDelete;
             }
+            //if program ever reaches here
+            //means that deletion is successful, decrease tree size and balance the tree
+            TreeSize--;
             TreeBalancing(stack);
             return true;
         }

@@ -26,16 +26,19 @@ namespace RustedWizard.BSTLibrary
             return Left == null && Right == null;
         }
 
+        //returns true if node has and only has one child node
         public bool HasOneChild()
         {
             return (Left == null && Right != null) || (Left != null && Right == null);
         }
 
+        //Interface implementation, enables polymorphisms
         public IBstNode<T> GetLeft()
         {
             return Left;
         }
 
+        //Interface implementation, enables polymorphisms
         public IBstNode<T> GetRight()
         {
             return Right;

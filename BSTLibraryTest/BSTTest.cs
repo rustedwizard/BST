@@ -31,9 +31,11 @@ namespace BSTLibraryTest
                 if (res)
                 {
                     counter++;
+                    Assert.AreEqual(counter, bstTree.TreeSize);
                     CallTreeValidataion(bstTree.Root);
                 }
             }
+            Assert.AreEqual(counter, bstTree.TreeSize);
             var inOrderList = new List<int>();
             foreach (var e in bstTree.InOrderTraverse())
             {
@@ -41,6 +43,8 @@ namespace BSTLibraryTest
             }
             Assert.AreEqual(inOrderList.Count, counter);
             CallTreeValidataion(bstTree.Root);
+            bstTree.ClearTheTree();
+            Assert.IsNull(bstTree.Root);
         }
 
         [TestMethod]
@@ -74,12 +78,19 @@ namespace BSTLibraryTest
             //and verify tree validity after each deletion
             foreach (var e in ints)
             {
-                bstTree.Delete(e);
+                var res = bstTree.Delete(e);
+                if (res)
+                {
+                    counter--;
+                    Assert.AreEqual(counter, bstTree.TreeSize);
+                }
                 if (bstTree.Root != null)
                 {
                     CallTreeValidataion(bstTree.Root);
                 }
             }
+            Assert.IsNull(bstTree.Root);
+            Assert.AreEqual(0, bstTree.TreeSize);
         }
 
         [TestMethod]

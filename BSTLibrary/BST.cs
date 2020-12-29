@@ -12,20 +12,24 @@ namespace RustedWizard.BSTLibrary
     public class Bst<T> : IBst<T> where T : IComparable
     {
         internal BstNode<T> Root { get; set; }
+        public int TreeSize { get; private set; }
 
         public Bst()
         {
             Root = null;
+            TreeSize = 0;
         }
 
         public Bst(T data)
         {
             Root = new BstNode<T>(data);
+            TreeSize++;
         }
 
         public void ClearTheTree()
         {
             Root = null;
+            TreeSize = 0;
         }
 
         public bool Insert(T data)
@@ -33,6 +37,7 @@ namespace RustedWizard.BSTLibrary
             if (Root == null)
             {
                 Root = new BstNode<T>(data);
+                TreeSize++;
                 return true;
             }
 
@@ -47,6 +52,7 @@ namespace RustedWizard.BSTLibrary
                         continue;
                     }
                     current.Left = new BstNode<T>(data);
+                    TreeSize++;
                     return true;
                 }
                 //Duplicate data is not allowed in BST, if found, stop insertion and return false; 
@@ -60,6 +66,7 @@ namespace RustedWizard.BSTLibrary
                     continue;
                 }
                 current.Right = new BstNode<T>(data);
+                TreeSize++;
                 return true;
             }
         }
@@ -80,6 +87,7 @@ namespace RustedWizard.BSTLibrary
                 if (Root.IsLeafNode())
                 {
                     Root = null;
+                    TreeSize--;
                     return true;
                 }
                 //Root node has one child
@@ -88,9 +96,11 @@ namespace RustedWizard.BSTLibrary
                     if (Root.Left != null)
                     {
                         Root = Root.Left;
+                        TreeSize--;
                         return true;
                     }
                     Root = Root.Right;
+                    TreeSize--;
                     return true;
                 }
                 //Root node has 2 child
@@ -139,9 +149,11 @@ namespace RustedWizard.BSTLibrary
                     if (prev.Left == current)
                     {
                         prev.Left = null;
+                        TreeSize--;
                         return true;
                     }
                     prev.Right = null;
+                    TreeSize--;
                     return true;
 
                 }
@@ -152,17 +164,21 @@ namespace RustedWizard.BSTLibrary
                         if (current.Left != null)
                         {
                             prev.Left = current.Left;
+                            TreeSize--;
                             return true;
                         }
                         prev.Left = current.Right;
+                        TreeSize--;
                         return true;
                     }
                     if (current.Left != null)
                     {
                         prev.Right = current.Left;
+                        TreeSize--;
                         return true;
                     }
                     prev.Right = current.Right;
+                    TreeSize--;
                     return true;
                 }
                 prev = current;
@@ -172,8 +188,8 @@ namespace RustedWizard.BSTLibrary
                     prev = toDelete;
                     toDelete = toDelete.Left;
                 }
-                current = toDelete;
                 current.Data = toDelete.Data;
+                current = toDelete;
             }
         }
 

@@ -99,13 +99,19 @@ namespace BSTLibraryTest
                     CallTreeValidation(avlTree.Root);
                     _ = TreeHeightVerification(avlTree.Root);
                     BalancingFactorVerification(avlTree.Root);
+                    Assert.AreEqual(counter, avlTree.TreeSize);
                 }
             }
             var inOrderList = avlTree.InOrderTraverse().ToList();
             Assert.AreEqual(inOrderList.Count, counter);
+            Assert.AreEqual(counter, avlTree.TreeSize);
             CallTreeValidation(avlTree.Root);
             _ = TreeHeightVerification(avlTree.Root);
             BalancingFactorVerification(avlTree.Root);
+            //Test clear the tree here
+            avlTree.ClearTheTree();
+            Assert.AreEqual(0, avlTree.TreeSize);
+            Assert.IsNull(avlTree.Root);
         }
 
         [TestMethod]
@@ -129,13 +135,21 @@ namespace BSTLibraryTest
             //and verify tree validity after each deletion
             foreach (var e in testData)
             {
-                avlTree.Delete(e);
+                var res =avlTree.Delete(e);
+                if (res)
+                {
+                    counter--;
+                    Assert.AreEqual(counter, avlTree.TreeSize);
+                }
                 if (avlTree.Root == null) continue;
                 CallTreeValidation(avlTree.Root);
                 _ = TreeHeightVerification(avlTree.Root);
                 BalancingFactorVerification(avlTree.Root);
             }
+            Assert.IsNull(avlTree.Root);
+            Assert.AreEqual(0, avlTree.TreeSize);
         }
+
 
         [TestMethod]
         public void FindTest()
