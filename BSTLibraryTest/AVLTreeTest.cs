@@ -100,6 +100,7 @@ namespace BSTLibraryTest
                     _ = TreeHeightVerification(avlTree.Root);
                     BalancingFactorVerification(avlTree.Root);
                     Assert.AreEqual(counter, avlTree.TreeSize);
+                    Assert.AreEqual(avlTree.InOrderTraverse().Count(), avlTree.TreeSize);
                 }
             }
             var inOrderList = avlTree.InOrderTraverse().ToList();
@@ -140,6 +141,8 @@ namespace BSTLibraryTest
                 {
                     counter--;
                     Assert.AreEqual(counter, avlTree.TreeSize);
+                    Assert.AreEqual(avlTree.InOrderTraverse().Count(), avlTree.TreeSize);
+                    Assert.IsFalse(avlTree.TryFind(e).Found);
                 }
                 if (avlTree.Root == null) continue;
                 CallTreeValidation(avlTree.Root);

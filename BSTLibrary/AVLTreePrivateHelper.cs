@@ -16,22 +16,18 @@ namespace RustedWizard.BSTLibrary
             {
                 return 0;
             }
-            //one child
-            if (node.HasOneChild())
-            {
-                if (node.Left != null)
-                {
-                    //had left child, balancing factor is the height of left subtree
-                    return node.Left.Height;
-                }
-                else
-                {
-                    //had right child, balancing factor is 0 - height of right subtree
-                    return 0 - node.Right.Height;
-                }
-            }
             //has two child, balancing factor is height of left subtree - height of right subtree
-            return (node.Left.Height - node.Right.Height);
+            if (!node.HasOneChild())
+            {
+                return (node.Left.Height - node.Right.Height);
+            }
+            //only one child, return that child's height
+            if (node.Left != null)//child on the left
+            {
+                return node.Left.Height;
+            }
+            return 0 - node.Right.Height;//child on the right
+            
         }
 
         private int GetSubtreeHeight(AvlNode<T> node)
@@ -40,20 +36,17 @@ namespace RustedWizard.BSTLibrary
             {
                 return 0; //no nodes below, height is 0 below
             }
-            //only one child return that child's height
-            if (node.HasOneChild())
-            {
-                if (node.Left != null)
-                {
-                    return node.Left.Height;
-                }
-                else
-                {
-                    return node.Right.Height;
-                }
-            }
             //two child, return the maximum height between left and right subtree.
-            return Math.Max(node.Left.Height, node.Right.Height);
+            if (!node.HasOneChild())
+            {
+                return Math.Max(node.Left.Height, node.Right.Height);
+            }
+            //Only one child, return that child's height
+            if (node.Left != null) //child on the left
+            {
+                return node.Left.Height;
+            }
+            return node.Right.Height; //child on the right
         }
 
         #region Rotations
@@ -126,95 +119,73 @@ namespace RustedWizard.BSTLibrary
                 node.Height = GetSubtreeHeight(node) + 1;
                 //get balancing factor of left and right subtree.
                 var bf = GetBalancingFactor(node);
-                //when balancing factor is 2 -> LeftLeft or LeftRight rotation
-                if (bf == 2)
+                switch (bf)
                 {
+                    //when balancing factor is 2 -> LeftLeft or LeftRight rotation
                     //if left child has balancing factor of 1 -> LeftLeftRotation
-                    if (GetBalancingFactor(node.Left) >= 0)
+                    case 2 when GetBalancingFactor(node.Left) >= 0:
                     {
                         if (stack.Count > 0)
                         {
                             if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
                             {
                                 stack.Peek().Left = LeftLeftRotation(node);
+                                continue;
                             }
-                            else
-                            {
-                                stack.Peek().Right = LeftLeftRotation(node);
-                            }
+                            stack.Peek().Right = LeftLeftRotation(node);
                             continue;
                         }
-                        else
-                        {
-                            Root = LeftLeftRotation(node);
-                            continue;
-                        }
+                        Root = LeftLeftRotation(node);
+                        continue;
                     }
                     //if left child has balancing factor of -1 -> LeftRightRotaion
-                    if (GetBalancingFactor(node.Left) == -1)
+                    case 2 when GetBalancingFactor(node.Left) == -1:
                     {
                         if (stack.Count > 0)
                         {
                             if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
                             {
                                 stack.Peek().Left = LeftRightRotation(node);
+                                continue;
                             }
-                            else
-                            {
-                                stack.Peek().Right = LeftRightRotation(node);
-                            }
+                            stack.Peek().Right = LeftRightRotation(node);
                             continue;
                         }
-                        else
-                        {
-                            Root = LeftRightRotation(node);
-                            continue;
-                        }
-
+                        Root = LeftRightRotation(node);
+                        continue;
                     }
-                }
-                //When balancing factor is -1 -> RightRightRotation or RightLeftRotation
-                if (bf == -2)
-                {
+                    //When balancing factor is -1 -> RightRightRotation or RightLeftRotation
                     //if Right Child has balancing factor of -1 -> RightRightRotation
-                    if (GetBalancingFactor(node.Right) <=0)
+                    case -2 when GetBalancingFactor(node.Right) <= 0:
                     {
                         if (stack.Count > 0)
                         {
                             if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
                             {
                                 stack.Peek().Left = RightRightRotation(node);
+                                continue;
                             }
-                            else
-                            {
-                                stack.Peek().Right = RightRightRotation(node);
-                            }
+                            stack.Peek().Right = RightRightRotation(node);
                             continue;
                         }
-                        else
-                        {
-                            Root = RightRightRotation(node);
-                            continue;
-                        }
+                        Root = RightRightRotation(node);
+                        continue;
                     }
                     //if Right Child has balancing factor of 1 -> RightLeftRotation
-                    if (GetBalancingFactor(node.Right) == 1)
+                    case -2 when GetBalancingFactor(node.Right) == 1:
                     {
                         if (stack.Count > 0)
                         {
                             if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
                             {
                                 stack.Peek().Left = RightLeftRotation(node);
+                                continue;
                             }
-                            else
-                            {
-                                stack.Peek().Right = RightLeftRotation(node);
-                            }
+                            stack.Peek().Right = RightLeftRotation(node);
+                            continue;
                         }
-                        else
-                        {
-                            Root = RightLeftRotation(node);
-                        }
+                        Root = RightLeftRotation(node);
+                        continue;
                     }
                 }
             }

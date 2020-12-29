@@ -2,6 +2,7 @@
 using RustedWizard.BSTLibrary;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BSTLibraryTest
 {
@@ -32,6 +33,7 @@ namespace BSTLibraryTest
                 {
                     counter++;
                     Assert.AreEqual(counter, bstTree.TreeSize);
+                    Assert.AreEqual(bstTree.InOrderTraverse().Count(), bstTree.TreeSize);
                     CallTreeValidataion(bstTree.Root);
                 }
             }
@@ -83,6 +85,8 @@ namespace BSTLibraryTest
                 {
                     counter--;
                     Assert.AreEqual(counter, bstTree.TreeSize);
+                    Assert.AreEqual(bstTree.InOrderTraverse().Count(), bstTree.TreeSize);
+                    Assert.IsFalse(bstTree.TryFind(e).Found);
                 }
                 if (bstTree.Root != null)
                 {
