@@ -4,22 +4,10 @@ using System.Collections.Generic;
 // ReSharper disable once CheckNamespace
 namespace RustedWizard.BSTLibrary
 {
-    internal class TreeTraverse<T> where T : IComparable
+    internal static class TreeTraverse<T> where T : IComparable
     {
-        private static TreeTraverse<T> _tt;
 
-        public static TreeTraverse<T> CreateTreeTraverse()
-        {
-            if (_tt != null)
-            {
-                return _tt;
-            }
-            _tt = new TreeTraverse<T>();
-            return _tt;
-        }
-        private TreeTraverse() { }
-
-        internal IEnumerable<T> InOrderTraversal(IBstNode<T> root)
+        internal static IEnumerable<T> InOrderTraversal(IBstNode<T> root)
         {
             if (root == null)
             {
@@ -35,23 +23,13 @@ namespace RustedWizard.BSTLibrary
                     current = current.GetLeft();
                 }
                 current = stack.Pop();
-                if (current.GetRight() != null)
-                {
-                    var data = current.Data;
-                    current = current.GetRight();
-                    yield return data;
-                }
-                else
-                {
-                    var data = current.Data;
-                    current = null;
-                    yield return data;
-                }
-
+                var data = current.Data;
+                current = current.GetRight();
+                yield return data;
             }
         }
 
-        internal IEnumerable<T> PreOrderTraversal(IBstNode<T> root)
+        internal static IEnumerable<T> PreOrderTraversal(IBstNode<T> root)
         {
             if (root == null)
             {
@@ -74,7 +52,7 @@ namespace RustedWizard.BSTLibrary
             }
         }
 
-        internal IEnumerable<T> PostOrderTraversal(IBstNode<T> root)
+        internal static IEnumerable<T> PostOrderTraversal(IBstNode<T> root)
         {
             if (root == null)
             {
@@ -102,7 +80,7 @@ namespace RustedWizard.BSTLibrary
             }
         }
 
-        internal (bool Result, T Data) TryFind(T data, IBstNode<T> root)
+        internal static (bool Result, T Data) TryFind(T data, IBstNode<T> root)
         {
             if (root == null)
             {

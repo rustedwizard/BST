@@ -196,22 +196,22 @@ namespace RustedWizard.BSTLibrary
         //Attempt to find data in BST
         public (bool Found, T Data) TryFind(T data)
         {
-            return TreeTraverse<T>.CreateTreeTraverse().TryFind(data, Root);
+            return TreeTraverse<T>.TryFind(data, Root);
         }
 
         public IEnumerable<T> InOrderTraverse()
         {
-            return TreeTraverse<T>.CreateTreeTraverse().InOrderTraversal(Root);
+            return TreeTraverse<T>.InOrderTraversal(Root);
         }
 
         public IEnumerable<T> PreOrderTraverse()
         {
-            return TreeTraverse<T>.CreateTreeTraverse().PreOrderTraversal(Root);
+            return TreeTraverse<T>.PreOrderTraversal(Root);
         }
 
         public IEnumerable<T> PostOrderTraverse()
         {
-            return TreeTraverse<T>.CreateTreeTraverse().PostOrderTraversal(Root);
+            return TreeTraverse<T>.PostOrderTraversal(Root);
         }
     }
 }

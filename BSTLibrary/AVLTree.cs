@@ -255,7 +255,7 @@ namespace RustedWizard.BSTLibrary
         /// </returns>
         public (bool Found, T Data) TryFind(T data)
         {
-            return TreeTraverse<T>.CreateTreeTraverse().TryFind(data, Root);
+            return TreeTraverse<T>.TryFind(data, Root);
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace RustedWizard.BSTLibrary
         /// <returns>Enumerable Collection of Data in In-Order sequence.</returns>
         public IEnumerable<T> InOrderTraverse()
         {
-            return TreeTraverse<T>.CreateTreeTraverse().InOrderTraversal(Root);
+            return TreeTraverse<T>.InOrderTraversal(Root);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace RustedWizard.BSTLibrary
         /// <returns>Enumerable Collection of Data in Pre-Order sequence.</returns>
         public IEnumerable<T> PreOrderTraverse()
         {
-            return TreeTraverse<T>.CreateTreeTraverse().PreOrderTraversal(Root);
+            return TreeTraverse<T>.PreOrderTraversal(Root);
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace RustedWizard.BSTLibrary
         /// <returns>Enumerable Collection of Data in Post-Order sequence.</returns>
         public IEnumerable<T> PostOrderTraverse()
         {
-            return TreeTraverse<T>.CreateTreeTraverse().PostOrderTraversal(Root);
+            return TreeTraverse<T>.PostOrderTraversal(Root);
         }
     }
 }
