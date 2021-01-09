@@ -1,4 +1,4 @@
-# BSTLibrary [Tests Status](https://github.com/rustedwizard/BST/workflows/.NET/badge.svg)
+# BSTLibrary ![Tests Status](https://github.com/rustedwizard/BST/workflows/.NET/badge.svg)
 
 ## Quick Intro
 
