@@ -17,6 +17,7 @@ namespace BSTLibraryTest
         [TestMethod]
         public void InsertionTest()
         {
+            Console.WriteLine("BSTTree Insertion Test is running...");
             var bstTree = new Bst<int>();
             var rnd = new Random();
             //Generate 20 random integer
@@ -47,11 +48,13 @@ namespace BSTLibraryTest
             CallTreeValidataion(bstTree.Root);
             bstTree.ClearTheTree();
             Assert.IsNull(bstTree.Root);
+            Console.WriteLine("BSTTree Insertion Test has finished running...");
         }
 
         [TestMethod]
         public void DeletionTest()
         {
+            Console.WriteLine("BSTTree Deletion Test is running...");
             var bstTree = new Bst<int>();
             var rnd = new Random();
             //Generate 20 random integer
@@ -95,11 +98,13 @@ namespace BSTLibraryTest
             }
             Assert.IsNull(bstTree.Root);
             Assert.AreEqual(0, bstTree.TreeSize);
+            Console.WriteLine("BSTTree Deletion Test has finished running...");
         }
 
         [TestMethod]
         public void FindTest()
         {
+            Console.WriteLine("BSTTree Finding Test is running...");
             var bstTree = new Bst<int>();
             var rnd = new Random();
             //Generate 20 random integer
@@ -137,11 +142,13 @@ namespace BSTLibraryTest
                 var res = bstTree.TryFind(rnd.Next(21000, 50000));
                 Assert.IsFalse(res.Found);
             }
+            Console.WriteLine("BSTTree Finding Test has finished running...");
         }
 
         [TestMethod]
         public void StressTest()
         {
+            Console.WriteLine("BSTTree Stress Test is running...");
             var bstTree = new Bst<int>();
             var rnd = new Random();
             //Generate 20 random integer
@@ -164,6 +171,7 @@ namespace BSTLibraryTest
             {
                 bstTree.Delete(e);
             }
+            Console.WriteLine("BSTTree Stress Test has finished running...");
         }
     }
 }

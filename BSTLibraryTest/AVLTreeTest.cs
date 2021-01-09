@@ -81,9 +81,10 @@ namespace BSTLibraryTest
         [TestMethod]
         public void InsertionTest()
         {
+            Console.WriteLine("AVLTree Insertion Test is running...");
             var avlTree = new AvlTree<int>();
             var rnd = new Random();
-            //Generate 20 random integer
+            //Generate 20000 random integer
             var testData = new int[20000];
             for (var i = 0; i < 20000; i++)
             {
@@ -113,11 +114,13 @@ namespace BSTLibraryTest
             avlTree.ClearTheTree();
             Assert.AreEqual(0, avlTree.TreeSize);
             Assert.IsNull(avlTree.Root);
+            Console.WriteLine("AVLTree Insertion Test has finished running...");
         }
 
         [TestMethod]
         public void DeletionTest()
         {
+            Console.WriteLine("AVLTree Deletion Test is running...");
             var avlTree = new AvlTree<int>();
             var rnd = new Random();
             //Generate 20 random integer
@@ -151,12 +154,14 @@ namespace BSTLibraryTest
             }
             Assert.IsNull(avlTree.Root);
             Assert.AreEqual(0, avlTree.TreeSize);
+            Console.WriteLine("AVLTree Deletion Test has finished running...");
         }
 
 
         [TestMethod]
         public void FindTest()
         {
+            Console.WriteLine("AVLTree Finding Test is running...");
             var avlTree = new AvlTree<int>();
             var rnd = new Random();
             //Generate 20 random integer
@@ -184,11 +189,13 @@ namespace BSTLibraryTest
                 var res = avlTree.TryFind(rnd.Next(21000, 50000));
                 Assert.IsFalse(res.Found);
             }
+            Console.WriteLine("AVLTree Finding Test has finished running...");
         }
 
         [TestMethod]
         public void StressTest()
         {
+            Console.WriteLine("AVLTree Stress Test is running...");
             var avlTree = new AvlTree<int>();
             var rnd = new Random();
             //Generate 20 random integer
@@ -211,6 +218,7 @@ namespace BSTLibraryTest
             {
                 avlTree.Delete(e);
             }
+            Console.WriteLine("AVLTree Stress Test has finished running...");
         }
     }
 }
