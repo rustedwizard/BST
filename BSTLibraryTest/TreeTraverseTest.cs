@@ -18,7 +18,7 @@ namespace BSTLibraryTest
             {
                 avlTree.Insert(i);
             }
-            var result = TreeTraverse<int>.InOrderTraversal(avlTree.Root).ToList();
+            var result = avlTree.InOrderTraverse().ToList();
             Assert.IsTrue(result.SequenceEqual(new List<int> {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));
             Console.WriteLine("In-Order Traversing Test has finished running...");
         }
@@ -32,7 +32,7 @@ namespace BSTLibraryTest
             {
                 avlTree.Insert(i);
             }
-            var result = TreeTraverse<int>.PreOrderTraversal(avlTree.Root).ToList();
+            var result = avlTree.PreOrderTraverse().ToList();
             Assert.IsTrue(result.SequenceEqual(new List<int>(){3, 1, 0, 2, 7, 5, 4, 6, 9, 8 ,10}));
             Console.WriteLine("Pre-Order Traversing Test is running");
         }
@@ -46,7 +46,7 @@ namespace BSTLibraryTest
             {
                 avlTree.Insert(i);
             }
-            var result = TreeTraverse<int>.PostOrderTraversal(avlTree.Root).ToList();
+            var result = avlTree.PostOrderTraverse().ToList();
             Assert.IsTrue(result.SequenceEqual(new List<int>(){0, 2, 1, 4, 6, 5, 8, 10, 9, 7, 3}));
             Console.WriteLine("Post-Order Traversing Test has finished running...");
         }

@@ -10,7 +10,7 @@ namespace RustedWizard.BSTLibrary
 {
     //Implement this interface to enforce comparable Generic Data type
     //and few fundamental method of binary search tree
-    public interface IBst<T> where T : IComparable 
+    public interface IBst<T> where T : IComparable
     {
         public bool Insert(T data);
 

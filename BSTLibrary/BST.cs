@@ -9,7 +9,7 @@ namespace RustedWizard.BSTLibrary
     //Support In-Order, PreOrder and Post-Order traversal of the tree.
     //Support find operation to tell if supplied data exists in Binary Search Tree
     //All supported operations are implemented without use of Recursion. So no stack overflow can happen.
-    public class Bst<T> : IBst<T> where T : IComparable
+    public class Bst<T> : AbBst<T> where T : IComparable
     {
         internal BstNode<T> Root { get; set; }
         public int TreeSize { get; private set; }
@@ -32,7 +32,7 @@ namespace RustedWizard.BSTLibrary
             TreeSize = 0;
         }
 
-        public bool Insert(T data)
+        public override bool Insert(T data)
         {
             if (Root == null)
             {
@@ -71,7 +71,7 @@ namespace RustedWizard.BSTLibrary
             }
         }
 
-        public bool Delete(T data)
+        public override bool Delete(T data)
         {
             if (Root == null)
             {
@@ -193,25 +193,9 @@ namespace RustedWizard.BSTLibrary
             }
         }
 
-        //Attempt to find data in BST
-        public (bool Found, T Data) TryFind(T data)
+        internal override IBstNode<T> GetRoot()
         {
-            return TreeTraverse<T>.TryFind(data, Root);
-        }
-
-        public IEnumerable<T> InOrderTraverse()
-        {
-            return TreeTraverse<T>.InOrderTraversal(Root);
-        }
-
-        public IEnumerable<T> PreOrderTraverse()
-        {
-            return TreeTraverse<T>.PreOrderTraversal(Root);
-        }
-
-        public IEnumerable<T> PostOrderTraverse()
-        {
-            return TreeTraverse<T>.PostOrderTraversal(Root);
+            return Root;
         }
     }
 }
