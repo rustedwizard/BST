@@ -110,6 +110,21 @@ namespace RustedWizard.BSTLibrary
         #endregion
         #endregion
 
+        private void HookUp(Stack<AvlNode<T>> stack, AvlNode<T> node, Func<AvlNode<T>, AvlNode<T>> func)
+        {
+            if (stack.Count > 0)
+            {
+                if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
+                {
+                    stack.Peek().Left = func(node);
+                    return;
+                }
+                stack.Peek().Right = func(node); 
+                return;
+            }
+            Root = func(node);
+        }
+
         partial void TreeBalancing(Stack<AvlNode<T>> stack)
         {
             while (stack.Count > 0)
@@ -119,74 +134,39 @@ namespace RustedWizard.BSTLibrary
                 node.Height = GetSubtreeHeight(node) + 1;
                 //get balancing factor of left and right subtree.
                 var bf = GetBalancingFactor(node);
+                Func<AvlNode<T>, AvlNode<T>> func = null;
                 switch (bf)
                 {
                     //when balancing factor is 2 -> LeftLeft or LeftRight rotation
                     //if left child has balancing factor of 1 -> LeftLeftRotation
                     case 2 when GetBalancingFactor(node.Left) >= 0:
                     {
-                        if (stack.Count > 0)
-                        {
-                            if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
-                            {
-                                stack.Peek().Left = LeftLeftRotation(node);
-                                continue;
-                            }
-                            stack.Peek().Right = LeftLeftRotation(node);
-                            continue;
-                        }
-                        Root = LeftLeftRotation(node);
-                        continue;
+                        func = LeftLeftRotation;
+                        break;
                     }
                     //if left child has balancing factor of -1 -> LeftRightRotaion
                     case 2 when GetBalancingFactor(node.Left) == -1:
                     {
-                        if (stack.Count > 0)
-                        {
-                            if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
-                            {
-                                stack.Peek().Left = LeftRightRotation(node);
-                                continue;
-                            }
-                            stack.Peek().Right = LeftRightRotation(node);
-                            continue;
-                        }
-                        Root = LeftRightRotation(node);
-                        continue;
+                        func = LeftRightRotation;
+                        break;
                     }
                     //When balancing factor is -1 -> RightRightRotation or RightLeftRotation
                     //if Right Child has balancing factor of -1 -> RightRightRotation
                     case -2 when GetBalancingFactor(node.Right) <= 0:
                     {
-                        if (stack.Count > 0)
-                        {
-                            if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
-                            {
-                                stack.Peek().Left = RightRightRotation(node);
-                                continue;
-                            }
-                            stack.Peek().Right = RightRightRotation(node);
-                            continue;
-                        }
-                        Root = RightRightRotation(node);
-                        continue;
+                        func = RightRightRotation;
+                        break;
                     }
                     //if Right Child has balancing factor of 1 -> RightLeftRotation
                     case -2 when GetBalancingFactor(node.Right) == 1:
                     {
-                        if (stack.Count > 0)
-                        {
-                            if (stack.Peek().Left != null && stack.Peek().Left.Data.CompareTo(node.Data) == 0)
-                            {
-                                stack.Peek().Left = RightLeftRotation(node);
-                                continue;
-                            }
-                            stack.Peek().Right = RightLeftRotation(node);
-                            continue;
-                        }
-                        Root = RightLeftRotation(node);
-                        continue;
+                        func = RightLeftRotation;
+                        break;
                     }
+                }
+                if (func != null)
+                {
+                    HookUp(stack, node, func);
                 }
             }
         }
